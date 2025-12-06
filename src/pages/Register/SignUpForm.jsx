@@ -1,50 +1,66 @@
 import React from "react";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
+import Logo from "../../components/Shared/Logo/Logo";
+import { Link } from "react-router";
+import { useForm } from "react-hook-form";
 
 const SignUpForm = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = async (data) => {
+    console.log(data);
+  };
   return (
-    <div className="min-h-screen bg-[#0F172A] flex items-center justify-center p-4">
-      <div className="w-full max-w-[640px] bg-[#1F2937] rounded-lg shadow md:mt-0 xl:p-0 border border-gray-700">
+    <div className="min-h-screen bg-[#0F172A] flex items-center justify-center py-30">
+      <div className="w-full max-w-[500px] bg-[#1F2937] rounded-lg shadow md:mt-0 xl:p-0 border border-gray-700">
         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
           {/* Logo */}
-          <a
-            href="#"
-            className="flex items-center mb-6 text-2xl font-semibold text-white"
-          >
-            <svg
-              className="w-8 h-8 mr-2"
-              viewBox="0 0 33 33"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M16.5 33C25.6127 33 33 25.6127 33 16.5C33 7.3873 25.6127 0 16.5 0C7.3873 0 0 7.3873 0 16.5C0 25.6127 7.3873 33 16.5 33Z"
-                fill="#1C64F2"
-              />
-              <path
-                d="M25.3125 14.5312C25.3125 18.0625 22.4688 20.9375 18.9062 20.9375H12.875C11.9688 20.9375 11.25 20.2188 11.25 19.3125V10.125C11.25 9.21875 11.9688 8.5 12.875 8.5H19.5625C22.75 8.5 25.3125 11.1875 25.3125 14.5312Z"
-                fill="white"
-              />
-            </svg>
-            Flowbite
-          </a>
+          <Logo></Logo>
 
           {/* Header */}
-          <h1 className="text-xl font-bold leading-tight tracking-tight text-white md:text-2xl">
+          <h1 className="text-xl text-center my-5 font-bold leading-tight tracking-tight text-white md:text-2xl">
             Create your Account
           </h1>
-          <p className="text-sm font-light text-gray-400">
-            Start your website in seconds. Already have an account?{" "}
-            <a href="#" className="font-medium text-blue-500 hover:underline">
-              Login here
-            </a>
-            .
-          </p>
 
-          <form className="space-y-4 md:space-y-6" action="#">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="space-y-4 md:space-y-6"
+          >
             {/* Input Grid */}
-            <div className="grid gap-6 mb-6 md:grid-cols-2">
+            <div className="grid gap-6 mb-6">
+              <div>
+                <label
+                  htmlFor="fullName"
+                  className="block mb-2 text-sm font-medium text-white"
+                >
+                  Full Name
+                </label>
+                <input
+                  type="text"
+                  name="fullName"
+                  id="fullName"
+                  className="bg-gray-700 border md:col-span-2 border-gray-600 text-white sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400"
+                  placeholder="Enter your name"
+                  required=""
+                  {...register("name", {
+                    required: "Name is required",
+                    maxLength: {
+                      value: 20,
+                      message: "Name cannot be too long",
+                    },
+                  })}
+                />
+                {errors.name && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.name.message}
+                  </p>
+                )}
+              </div>
+
               <div>
                 <label
                   htmlFor="email"
@@ -57,26 +73,23 @@ const SignUpForm = () => {
                   name="email"
                   id="email"
                   className="bg-gray-700 border border-gray-600 text-white sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400"
-                  placeholder="name@company.com"
+                  placeholder="Enter your email"
                   required=""
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                      message: "Please enter a valid email address.",
+                    },
+                  })}
                 />
+                {errors.email && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.email.message}
+                  </p>
+                )}
               </div>
-              <div>
-                <label
-                  htmlFor="fullName"
-                  className="block mb-2 text-sm font-medium text-white"
-                >
-                  Full Name
-                </label>
-                <input
-                  type="text"
-                  name="fullName"
-                  id="fullName"
-                  className="bg-gray-700 border border-gray-600 text-white sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400"
-                  placeholder="e.g. Bonnie Green"
-                  required=""
-                />
-              </div>
+
               <div>
                 <label
                   htmlFor="country"
@@ -87,14 +100,33 @@ const SignUpForm = () => {
                 <select
                   id="country"
                   className="bg-gray-700 border border-gray-600 text-white sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400"
+                  {...register("userRole")}
                 >
-                  <option>Choose a country</option>
-                  <option>United States</option>
-                  <option>Germany</option>
-                  <option>France</option>
-                  <option>United Kingdom</option>
+                  <option disabled>Choose a Role</option>
+                  <option>Student</option>
+                  <option>Teacher</option>
                 </select>
               </div>
+
+              <div>
+                <label
+                  htmlFor="email"
+                  className="block mb-2 text-sm font-medium text-white"
+                >
+                  Profile Image
+                </label>
+                <input
+                  name="image"
+                  type="file"
+                  id="image"
+                  accept="image/*"
+                  className="bg-gray-700 border border-gray-600 text-white sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400"
+                  placeholder="Your Photo"
+                  required=""
+                  {...register("image", { required: true })}
+                />
+              </div>
+
               <div>
                 <label
                   htmlFor="password"
@@ -109,15 +141,27 @@ const SignUpForm = () => {
                   placeholder="••••••••"
                   className="bg-gray-700 border border-gray-600 text-white sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400"
                   required=""
+                  {...register("password", {
+                    required: "Password is required",
+                    minLength: {
+                      value: 6,
+                      message: "Password must be at least 6 characters",
+                    },
+                  })}
                 />
+                {errors.password && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.password.message}
+                  </p>
+                )}
               </div>
             </div>
 
             {/* Divider */}
             <div className="relative flex py-2 items-center">
-              <div className="flex-grow border-t border-gray-600"></div>
-              <span className="flex-shrink mx-4 text-gray-400">or</span>
-              <div className="flex-grow border-t border-gray-600"></div>
+              <div className="grow border-t border-gray-600"></div>
+              <span className="shrink mx-4 text-gray-400">or</span>
+              <div className="grow border-t border-gray-600"></div>
             </div>
 
             {/* Social Buttons */}
@@ -131,58 +175,6 @@ const SignUpForm = () => {
               </button>
             </div>
 
-            {/* Checkboxes */}
-            <div className="flex items-start">
-              <div className="flex items-center h-5">
-                <input
-                  id="terms"
-                  aria-describedby="terms"
-                  type="checkbox"
-                  className="w-4 h-4 border border-gray-600 rounded bg-gray-700 focus:ring-3 focus:ring-blue-600 ring-offset-gray-800"
-                  required=""
-                />
-              </div>
-              <div className="ml-3 text-sm">
-                <label htmlFor="terms" className="font-light text-gray-300">
-                  By signing up, you are creating a Flowbite account, and you
-                  agree to Flowbite's{" "}
-                  <a
-                    className="font-medium text-blue-500 hover:underline"
-                    href="#"
-                  >
-                    Terms of Use
-                  </a>{" "}
-                  and{" "}
-                  <a
-                    className="font-medium text-blue-500 hover:underline"
-                    href="#"
-                  >
-                    Privacy Policy
-                  </a>
-                  .
-                </label>
-              </div>
-            </div>
-
-            <div className="flex items-start">
-              <div className="flex items-center h-5">
-                <input
-                  id="newsletter"
-                  aria-describedby="newsletter"
-                  type="checkbox"
-                  className="w-4 h-4 border border-gray-600 rounded bg-gray-700 focus:ring-3 focus:ring-blue-600 ring-offset-gray-800"
-                />
-              </div>
-              <div className="ml-3 text-sm">
-                <label
-                  htmlFor="newsletter"
-                  className="font-light text-gray-300"
-                >
-                  Email me about product updates and resources.
-                </label>
-              </div>
-            </div>
-
             {/* Submit Button */}
             <button
               type="submit"
@@ -191,6 +183,15 @@ const SignUpForm = () => {
               Create an account
             </button>
           </form>
+          <p className="text-sm text-center font-light text-gray-400">
+            Already have an account?{" "}
+            <Link
+              to="/signin"
+              className="font-medium text-blue-500 hover:underline"
+            >
+              Sign in
+            </Link>
+          </p>
         </div>
       </div>
     </div>
