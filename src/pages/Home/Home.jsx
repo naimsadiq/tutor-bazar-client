@@ -7,8 +7,10 @@ const Home = () => {
   return (
     <div>
       <Banner></Banner>
-      <TuitionRequirementCard></TuitionRequirementCard>
-      <TeacherCard></TeacherCard>
+      <main className="max-w-7xl mx-auto py-20">
+        <TuitionRequirementCard></TuitionRequirementCard>
+        <TeacherCard></TeacherCard>
+      </main>
     </div>
   );
 };

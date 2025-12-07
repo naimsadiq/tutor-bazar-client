@@ -2,40 +2,81 @@ import React from "react";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
 import Logo from "../../components/Shared/Logo/Logo";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import { imageUpload } from "../../../utils";
+import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const SignUpForm = () => {
+  const { createUser, updateUserProfile, signInWithGoogle, loading } =
+    useAuth();
+  // const navigate = useNavigate();
+  // const location = useLocation();
+  // const from = location.state || "/";
+  const axiosSecure = useAxiosSecure();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
   const onSubmit = async (data) => {
-    console.log(data);
+    const { name, image, email, userRole, password } = data;
+    const imageFile = image[0];
+
+    try {
+      // 1. Firebase signup
+      await createUser(email, password);
+
+      // 2. Upload image
+      const imageURL = await imageUpload(imageFile);
+
+      // 3. Update Firebase user profile
+      await updateUserProfile(name, imageURL);
+
+      // 4. Save user to database (without password)
+      const userInfo = {
+        name,
+        imageURL,
+        email,
+        role: userRole,
+        createdAt: new Date(),
+      };
+
+      const res = await axiosSecure.post("/users", userInfo);
+
+      if (res.data.insertedId) {
+        toast.success("Signup Successful");
+      }
+
+      // navigate(from, { replace: true });
+    } catch (err) {
+      console.log(err);
+      toast.error(err?.message || "Something went wrong");
+    }
   };
+
   return (
-    <div className="min-h-screen bg-[#0F172A] flex items-center justify-center py-30">
-      <div className="w-full max-w-[500px] bg-[#1F2937] rounded-lg shadow md:mt-0 xl:p-0 border border-gray-700">
-        <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+    <div className="min-h-screen flex items-center justify-center py-10 sm:py-20 bg-gray-100 dark:bg-[#0F172A]">
+      <div className="w-full max-w-[500px] bg-white dark:bg-[#1F2937] rounded-lg shadow-xl border border-gray-200 dark:border-gray-700">
+        <div className="p-6 space-y-6 sm:p-8">
           {/* Logo */}
-          <Logo></Logo>
+          <Logo />
 
           {/* Header */}
-          <h1 className="text-xl text-center my-5 font-bold leading-tight tracking-tight text-white md:text-2xl">
-            Create your Account
+          <h1 className="text-2xl text-center font-extrabold leading-tight text-gray-900 dark:text-white md:text-3xl">
+            Create Your Account
           </h1>
 
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="space-y-4 md:space-y-6"
-          >
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             {/* Input Grid */}
-            <div className="grid gap-6 mb-6">
+            <div className="grid gap-5">
+              {/* Full Name */}
               <div>
                 <label
                   htmlFor="fullName"
-                  className="block mb-2 text-sm font-medium text-white"
+                  className="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300"
                 >
                   Full Name
                 </label>
@@ -43,9 +84,8 @@ const SignUpForm = () => {
                   type="text"
                   name="fullName"
                   id="fullName"
-                  className="bg-gray-700 border md:col-span-2 border-gray-600 text-white sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 dark:bg-gray-700 dark:border-gray-600 dark:text-white sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:placeholder-gray-400"
                   placeholder="Enter your name"
-                  required=""
                   {...register("name", {
                     required: "Name is required",
                     maxLength: {
@@ -55,16 +95,17 @@ const SignUpForm = () => {
                   })}
                 />
                 {errors.name && (
-                  <p className="text-red-500 text-xs mt-1">
+                  <p className="text-red-600 text-xs mt-1">
                     {errors.name.message}
                   </p>
                 )}
               </div>
 
+              {/* Email */}
               <div>
                 <label
                   htmlFor="email"
-                  className="block mb-2 text-sm font-medium text-white"
+                  className="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300"
                 >
                   Your email
                 </label>
@@ -72,9 +113,8 @@ const SignUpForm = () => {
                   type="email"
                   name="email"
                   id="email"
-                  className="bg-gray-700 border border-gray-600 text-white sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 dark:bg-gray-700 dark:border-gray-600 dark:text-white sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:placeholder-gray-400"
                   placeholder="Enter your email"
-                  required=""
                   {...register("email", {
                     required: "Email is required",
                     pattern: {
@@ -84,34 +124,36 @@ const SignUpForm = () => {
                   })}
                 />
                 {errors.email && (
-                  <p className="text-red-500 text-xs mt-1">
+                  <p className="text-red-600 text-xs mt-1">
                     {errors.email.message}
                   </p>
                 )}
               </div>
 
+              {/* Country/Role Select */}
               <div>
                 <label
-                  htmlFor="country"
-                  className="block mb-2 text-sm font-medium text-white"
+                  htmlFor="userRole"
+                  className="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300"
                 >
-                  Country
+                  Role
                 </label>
                 <select
-                  id="country"
-                  className="bg-gray-700 border border-gray-600 text-white sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400"
-                  {...register("userRole")}
+                  id="userRole"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 dark:bg-gray-700 dark:border-gray-600 dark:text-white sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:placeholder-gray-400"
+                  {...register("userRole", { required: "rule id required" })}
                 >
-                  <option disabled>Choose a Role</option>
-                  <option>Student</option>
-                  <option>Teacher</option>
+                  <option value="">Choose a Role</option>
+                  <option value="student">Student</option>
+                  <option value="teacher">Teacher</option>
                 </select>
               </div>
 
+              {/* Profile Image */}
               <div>
                 <label
-                  htmlFor="email"
-                  className="block mb-2 text-sm font-medium text-white"
+                  htmlFor="image"
+                  className="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300"
                 >
                   Profile Image
                 </label>
@@ -120,17 +162,23 @@ const SignUpForm = () => {
                   type="file"
                   id="image"
                   accept="image/*"
-                  className="bg-gray-700 border border-gray-600 text-white sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400"
-                  placeholder="Your Photo"
-                  required=""
-                  {...register("image", { required: true })}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 dark:bg-gray-700 dark:border-gray-600 dark:text-white sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                  {...register("image", {
+                    required: "Profile image is required",
+                  })}
                 />
+                {errors.image && (
+                  <p className="text-red-600 text-xs mt-1">
+                    {errors.image.message}
+                  </p>
+                )}
               </div>
 
+              {/* Password */}
               <div>
                 <label
                   htmlFor="password"
-                  className="block mb-2 text-sm font-medium text-white"
+                  className="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300"
                 >
                   Password
                 </label>
@@ -139,8 +187,7 @@ const SignUpForm = () => {
                   name="password"
                   id="password"
                   placeholder="••••••••"
-                  className="bg-gray-700 border border-gray-600 text-white sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400"
-                  required=""
+                  className="bg-gray-50 border border-gray-300 text-gray-900 dark:bg-gray-700 dark:border-gray-600 dark:text-white sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:placeholder-gray-400"
                   {...register("password", {
                     required: "Password is required",
                     minLength: {
@@ -150,44 +197,47 @@ const SignUpForm = () => {
                   })}
                 />
                 {errors.password && (
-                  <p className="text-red-500 text-xs mt-1">
+                  <p className="text-red-600 text-xs mt-1">
                     {errors.password.message}
                   </p>
                 )}
               </div>
             </div>
 
-            {/* Divider */}
-            <div className="relative flex py-2 items-center">
-              <div className="grow border-t border-gray-600"></div>
-              <span className="shrink mx-4 text-gray-400">or</span>
-              <div className="grow border-t border-gray-600"></div>
-            </div>
-
-            {/* Social Buttons */}
-            <div className="flex flex-col gap-3">
-              <button
-                type="button"
-                className="text-white w-full bg-[#1F2937] hover:bg-gray-700 border border-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center justify-center mr-2 mb-2"
-              >
-                <FcGoogle className="w-5 h-5 mr-2" />
-                Sign up with Google
-              </button>
-            </div>
-
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+              className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800"
             >
               Create an account
             </button>
           </form>
-          <p className="text-sm text-center font-light text-gray-400">
+
+          {/* Divider */}
+          <div className="relative flex py-3 items-center">
+            <div className="flex-grow border-t border-gray-300 dark:border-gray-600"></div>
+            <span className="flex-shrink mx-4 text-gray-500 dark:text-gray-400">
+              or
+            </span>
+            <div className="flex-grow border-t border-gray-300 dark:border-gray-600"></div>
+          </div>
+
+          {/* Social Buttons */}
+          <div className="flex flex-col gap-3">
+            <button
+              type="button"
+              className="w-full text-gray-900 bg-white hover:bg-gray-100 border border-gray-300 focus:ring-4 focus:outline-none focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center justify-center dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
+            >
+              <FcGoogle className="w-5 h-5 mr-2" />
+              Sign up with Google
+            </button>
+          </div>
+
+          <p className="text-sm text-center font-light text-gray-500 dark:text-gray-400">
             Already have an account?{" "}
             <Link
               to="/signin"
-              className="font-medium text-blue-500 hover:underline"
+              className="font-medium text-blue-600 hover:underline dark:text-blue-500"
             >
               Sign in
             </Link>

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Logo from "../Logo/Logo";
-import { NavLink } from "react-router";
+import { Link, NavLink } from "react-router";
 import useAuth from "../../../hooks/useAuth";
-
+import profileIcon from "../../../assets/profile-icon.png";
 const Navbar = () => {
-  const { user } = useAuth();
+  const { user, logOut } = useAuth();
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -59,38 +59,22 @@ const Navbar = () => {
               onClick={toggleUserDropdown}
             >
               <span className="sr-only">Open user menu</span>
-              <img
+              {/* <img
                 className="w-8 h-8 rounded-full"
-                src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                src={user?.photoURL}
                 alt="user photo"
+              /> */}
+              <img
+                className="md:h-9 md:w-9h-10 w-9 object-cover rounded-full cursor-pointer"
+                src={user?.photoURL || profileIcon}
+                alt="profile pic"
               />
             </button>
           ) : (
             <div className="flex gap-3.5">
-              <NavLink
-                to="/signin"
-                className={({ isActive }) =>
-                  `${linksClass} ${
-                    isActive
-                      ? "text-blue-700 md:text-blue-700"
-                      : "text-gray-900 md:hover:text-blue-700"
-                  }`
-                }
-              >
-                Log in
-              </NavLink>
-              <NavLink
-                to="/signup"
-                className={({ isActive }) =>
-                  `${linksClass} ${
-                    isActive
-                      ? "text-blue-700 md:text-blue-700"
-                      : "text-gray-900 md:hover:text-blue-700"
-                  }`
-                }
-              >
-                Sign Up
-              </NavLink>
+              <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full">
+                <Link to="/signin">Log in</Link>
+              </button>
             </div>
           )}
 
@@ -102,10 +86,10 @@ const Navbar = () => {
             >
               <div className="px-4 py-3">
                 <span className="block text-sm text-gray-900">
-                  Joseph McFall
+                  {user?.displayName}
                 </span>
                 <span className="block text-sm text-gray-500 truncate">
-                  name@flowbite.com
+                  {user?.email}
                 </span>
               </div>
               <ul className="py-2" aria-labelledby="user-menu-button">
@@ -126,12 +110,12 @@ const Navbar = () => {
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="#"
+                  <button
+                    onClick={logOut}
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                   >
                     Sign out
-                  </a>
+                  </button>
                 </li>
               </ul>
             </div>
