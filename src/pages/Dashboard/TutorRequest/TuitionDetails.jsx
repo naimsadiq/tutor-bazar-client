@@ -1,0 +1,189 @@
+// src/pages/TuitionDetails.jsx
+import React from "react";
+import { useNavigate, useParams } from "react-router";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
+
+const TuitionDetails = () => {
+  const { id } = useParams(); // URL থেকে পোস্টের ID নিন
+  const navigate = useNavigate(); // প্রোগ্রাম্যাটিক্যালি নেভিগেট করার জন্য
+
+  const axiosSecure = useAxiosSecure();
+
+  const { data: post = {}, isLoading } = useQuery({
+    queryKey: ["post"],
+    queryFn: async () => {
+      const result = await axiosSecure(
+        `${import.meta.env.VITE_API_URL}/tutor-request/${id}`
+      );
+      return result.data;
+    },
+  });
+
+  const handleApply = () => {
+    // এখানে শিক্ষক আবেদনের লজিক যোগ করুন
+    // যেমন: একটি ফর্ম দেখানো, বা একটি মডাল খোলা, অথবা সরাসরি একটি API কল করা।
+    alert("আপনি এই পোস্টে আবেদন করেছেন! (এটি শুধুমাত্র একটি ডেমো)");
+    // আবেদনের পর আপনি চাইলে অন্য কোনো পেজে রিডাইরেক্ট করতে পারেন
+    // navigate('/application-success');
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+        <p className="text-xl">Loading tuition details...</p>
+      </div>
+    );
+  }
+
+  // if (isError) {
+  //   return (
+  //     <div className="flex justify-center items-center h-screen bg-gray-100 dark:bg-gray-900 text-red-500">
+  //       <p className="text-xl">Error: {error.message}</p>
+  //       <button
+  //         onClick={() => navigate(-1)} // আগের পেজে ফিরে যেতে
+  //         className="ml-4 bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition-colors duration-300"
+  //       >
+  //         ফিরে যান
+  //       </button>
+  //     </div>
+  //   );
+  // }
+
+  // if (!post) {
+  //   return (
+  //     <div className="flex justify-center items-center h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+  //       <p className="text-xl">এই পোস্টটি খুঁজে পাওয়া যায়নি।</p>
+  //       <button
+  //         onClick={() => navigate("/")} // হোম পেজে ফিরে যেতে
+  //         className="ml-4 bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition-colors duration-300"
+  //       >
+  //         হোম পেজে যান
+  //       </button>
+  //     </div>
+  //   );
+  // }
+
+  return (
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 p-4 sm:p-6 lg:p-8">
+      <div className="container mx-auto max-w-4xl bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 sm:p-8">
+        <button
+          onClick={() => navigate(-1)}
+          className="mb-6 flex items-center text-indigo-600 dark:text-indigo-400 hover:underline"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5 mr-2"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fillRule="evenodd"
+              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+              clipRule="evenodd"
+            />
+          </svg>
+          ফিরে যান
+        </button>
+
+        <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 dark:text-white mb-6 border-b pb-4 border-gray-200 dark:border-gray-700">
+          {post.title}
+        </h1>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <div className="space-y-4">
+            <p className="text-lg text-gray-700 dark:text-gray-200">
+              <span className="font-semibold text-gray-900 dark:text-white">
+                বিষয়:
+              </span>{" "}
+              {post.subject}
+            </p>
+            <p className="text-lg text-gray-700 dark:text-gray-200">
+              <span className="font-semibold text-gray-900 dark:text-white">
+                ক্লাস/শ্রেণী:
+              </span>{" "}
+              {post.classLevel}
+            </p>
+            <p className="text-lg text-gray-700 dark:text-gray-200">
+              <span className="font-semibold text-gray-900 dark:text-white">
+                এলাকা:
+              </span>{" "}
+              {post.location}
+            </p>
+            <p className="text-lg text-gray-700 dark:text-gray-200">
+              <span className="font-semibold text-gray-900 dark:text-white">
+                বেতন:
+              </span>{" "}
+              {post.salaryRange}
+            </p>
+            <p className="text-lg text-gray-700 dark:text-gray-200">
+              <span className="font-semibold text-gray-900 dark:text-white">
+                শিক্ষক প্রয়োজন:
+              </span>{" "}
+              {post.numberOfTeachersNeeded || "১ জন"}
+            </p>
+          </div>
+          <div className="space-y-4">
+            <p className="text-lg text-gray-700 dark:text-gray-200">
+              <span className="font-semibold text-gray-900 dark:text-white">
+                পোস্ট করেছেন:
+              </span>{" "}
+              {post.postedBy}
+            </p>
+            <p className="text-lg text-gray-700 dark:text-gray-200">
+              <span className="font-semibold text-gray-900 dark:text-white">
+                পোস্টিং তারিখ:
+              </span>{" "}
+              {new Date(post.datePosted).toLocaleDateString()}
+            </p>
+            <p className="text-lg text-gray-700 dark:text-gray-200">
+              <span className="font-semibold text-gray-900 dark:text-white">
+                শিক্ষকের লিঙ্গ:
+              </span>{" "}
+              {post.genderPreference || "যেকোনো"}
+            </p>
+            <p className="text-lg text-gray-700 dark:text-gray-200">
+              <span className="font-semibold text-gray-900 dark:text-white">
+                যোগাযোগ:
+              </span>{" "}
+              {post.contactInfo || "দেখা হয়নি"} {/* উদাহরণ: ফোন, ইমেল */}
+            </p>
+          </div>
+        </div>
+
+        <div className="mb-8">
+          <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-3 border-b pb-2 border-gray-200 dark:border-gray-700">
+            বিস্তারিত বিবরণ:
+          </h3>
+          <p className="text-gray-700 dark:text-gray-200 leading-relaxed">
+            {post.description}
+          </p>
+        </div>
+
+        <div className="mb-8">
+          <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-3 border-b pb-2 border-gray-200 dark:border-gray-700">
+            বিশেষ প্রয়োজন/সুবিধা:
+          </h3>
+          <ul className="list-disc list-inside text-gray-700 dark:text-gray-200 space-y-1">
+            {post.requirements && post.requirements.length > 0 ? (
+              post.requirements.map((req, index) => <li key={index}>{req}</li>)
+            ) : (
+              <li>কোনো বিশেষ প্রয়োজন উল্লেখ করা হয়নি।</li>
+            )}
+          </ul>
+        </div>
+
+        <div className="text-center mt-10">
+          <button
+            onClick={handleApply}
+            className="bg-green-600 text-white text-xl font-bold py-3 px-8 rounded-full hover:bg-green-700 transition-colors duration-300 shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-green-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+          >
+            এই পোস্টের জন্য আবেদন করুন
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default TuitionDetails;

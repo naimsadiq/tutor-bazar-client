@@ -1,6 +1,4 @@
 import React from "react";
-import { FcGoogle } from "react-icons/fc";
-import { FaApple } from "react-icons/fa";
 import Logo from "../../components/Shared/Logo/Logo";
 import { Link, useLocation, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
@@ -8,10 +6,10 @@ import { toast } from "react-toastify";
 import { imageUpload } from "../../../utils";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import GoogleWithLogin from "../../components/SocialLogin/googleWithLogin";
 
 const SignUpForm = () => {
-  const { createUser, updateUserProfile, signInWithGoogle, loading } =
-    useAuth();
+  const { createUser, updateUserProfile, loading } = useAuth();
   // const navigate = useNavigate();
   // const location = useLocation();
   // const from = location.state || "/";
@@ -215,23 +213,15 @@ const SignUpForm = () => {
 
           {/* Divider */}
           <div className="relative flex py-3 items-center">
-            <div className="flex-grow border-t border-gray-300 dark:border-gray-600"></div>
-            <span className="flex-shrink mx-4 text-gray-500 dark:text-gray-400">
+            <div className="grow border-t border-gray-300 dark:border-gray-600"></div>
+            <span className="shrink mx-4 text-gray-500 dark:text-gray-400">
               or
             </span>
-            <div className="flex-grow border-t border-gray-300 dark:border-gray-600"></div>
+            <div className="grow border-t border-gray-300 dark:border-gray-600"></div>
           </div>
 
           {/* Social Buttons */}
-          <div className="flex flex-col gap-3">
-            <button
-              type="button"
-              className="w-full text-gray-900 bg-white hover:bg-gray-100 border border-gray-300 focus:ring-4 focus:outline-none focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center justify-center dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
-            >
-              <FcGoogle className="w-5 h-5 mr-2" />
-              Sign up with Google
-            </button>
-          </div>
+          <GoogleWithLogin></GoogleWithLogin>
 
           <p className="text-sm text-center font-light text-gray-500 dark:text-gray-400">
             Already have an account?{" "}

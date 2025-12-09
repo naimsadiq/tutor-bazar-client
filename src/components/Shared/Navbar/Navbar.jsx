@@ -34,12 +34,40 @@ const Navbar = () => {
           Home
         </NavLink>
       </li>
+      <li>
+        <NavLink
+          to="/tuition"
+          className={({ isActive }) =>
+            `${linksClass} ${
+              isActive
+                ? "text-blue-700 md:text-blue-700" // Active হলে নীল
+                : "text-gray-900 md:hover:text-blue-700" // Inactive হলে ধূসর
+            }`
+          }
+        >
+          Tuition
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          to="/teacher-profile"
+          className={({ isActive }) =>
+            `${linksClass} ${
+              isActive
+                ? "text-blue-700 md:text-blue-700" // Active হলে নীল
+                : "text-gray-900 md:hover:text-blue-700" // Inactive হলে ধূসর
+            }`
+          }
+        >
+          Teacher Listing
+        </NavLink>
+      </li>
     </>
   );
 
   return (
     <nav className="bg-white border-b border-gray-200 fixed w-full z-20 top-0 start-0">
-      <div className="max-w-7xl flex flex-wrap items-center justify-between mx-auto p-4">
+      <div className="max-w-9/12 mx-auto  flex flex-wrap items-center justify-between p-4">
         {/* Logo Section */}
         <div className="flex items-center space-x-1 rtl:space-x-reverse">
           <Logo></Logo>
@@ -94,12 +122,12 @@ const Navbar = () => {
               </div>
               <ul className="py-2" aria-labelledby="user-menu-button">
                 <li>
-                  <a
-                    href="#"
+                  <Link
+                    to="/dashboard"
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                   >
                     Dashboard
-                  </a>
+                  </Link>
                 </li>
                 <li>
                   <a

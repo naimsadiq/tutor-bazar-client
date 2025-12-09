@@ -1,168 +1,74 @@
 import React from "react";
-import { FaMapMarkerAlt, FaStar, FaUserGraduate } from "react-icons/fa";
+import {
+  FaBookOpen,
+  FaUserGraduate,
+  FaMapMarkerAlt,
+  FaDollarSign,
+  FaClock,
+} from "react-icons/fa";
+import { useNavigate } from "react-router";
 
-const TeacherCard = () => {
+const TeacherCard = ({ teacher }) => {
+  const navigete = useNavigate();
+  const {
+    teacherName,
+    qualification,
+    experienceYears,
+    subjects,
+    classLevels,
+    teachingArea,
+    salaryRange,
+    preferredTime,
+    profilePhoto,
+    _id,
+  } = teacher;
+
+  const handleTeacherProfileDetails = (id) => {
+    navigete(`/teacher-profile/${id}`);
+  };
+
   return (
-    <section>
-      <h2 className="text-2xl font-bold mb-4">Latest Tutors</h2>
-      <div className="grid md:grid-cols-3 gap-6">
-        <div className="bg-white rounded-2xl shadow p-5 border hover:shadow-lg transition">
-          <img
-            src="https://i.pravatar.cc/150?img=32"
-            // alt={tutor.name}
-            className="w-24 h-24 rounded-full mx-auto mb-3"
-          />
-
-          <h3 className="text-lg font-semibold text-center">Mehedi Hasan</h3>
-          <p className="text-sm text-gray-600 text-center flex items-center justify-center gap-2">
-            <FaUserGraduate /> "Math", "Physics"
-          </p>
-
-          <p className="text-sm text-center mt-2">
-            Expertise: BSc in CSE (RUET)
-          </p>
-          <p className="text-sm text-center text-gray-600">
-            Experience: 2 Years
-          </p>
-
-          <p className="text-sm flex items-center justify-center gap-1 text-yellow-500 mt-1">
-            <FaStar /> 4.8
-          </p>
-
-          <p className="text-sm text-gray-600 flex items-center gap-2 justify-center mt-1">
-            <FaMapMarkerAlt /> Rajshahi – Laxmipur
-          </p>
-
-          <button className="mt-3 w-full py-2 rounded-xl bg-green-600 text-white hover:bg-green-700 transition">
-            View Profile
-          </button>
-        </div>
-        <div className="bg-white rounded-2xl shadow p-5 border hover:shadow-lg transition">
-          <img
-            src="https://i.pravatar.cc/150?img=32"
-            // alt={tutor.name}
-            className="w-24 h-24 rounded-full mx-auto mb-3"
-          />
-
-          <h3 className="text-lg font-semibold text-center">Mehedi Hasan</h3>
-          <p className="text-sm text-gray-600 text-center flex items-center justify-center gap-2">
-            <FaUserGraduate /> "Math", "Physics"
-          </p>
-
-          <p className="text-sm text-center mt-2">
-            Expertise: BSc in CSE (RUET)
-          </p>
-          <p className="text-sm text-center text-gray-600">
-            Experience: 2 Years
-          </p>
-
-          <p className="text-sm flex items-center justify-center gap-1 text-yellow-500 mt-1">
-            <FaStar /> 4.8
-          </p>
-
-          <p className="text-sm text-gray-600 flex items-center gap-2 justify-center mt-1">
-            <FaMapMarkerAlt /> Rajshahi – Laxmipur
-          </p>
-
-          <button className="mt-3 w-full py-2 rounded-xl bg-green-600 text-white hover:bg-green-700 transition">
-            View Profile
-          </button>
-        </div>
-        <div className="bg-white rounded-2xl shadow p-5 border hover:shadow-lg transition">
-          <img
-            src="https://i.pravatar.cc/150?img=32"
-            // alt={tutor.name}
-            className="w-24 h-24 rounded-full mx-auto mb-3"
-          />
-
-          <h3 className="text-lg font-semibold text-center">Mehedi Hasan</h3>
-          <p className="text-sm text-gray-600 text-center flex items-center justify-center gap-2">
-            <FaUserGraduate /> "Math", "Physics"
-          </p>
-
-          <p className="text-sm text-center mt-2">
-            Expertise: BSc in CSE (RUET)
-          </p>
-          <p className="text-sm text-center text-gray-600">
-            Experience: 2 Years
-          </p>
-
-          <p className="text-sm flex items-center justify-center gap-1 text-yellow-500 mt-1">
-            <FaStar /> 4.8
-          </p>
-
-          <p className="text-sm text-gray-600 flex items-center gap-2 justify-center mt-1">
-            <FaMapMarkerAlt /> Rajshahi – Laxmipur
-          </p>
-
-          <button className="mt-3 w-full py-2 rounded-xl bg-green-600 text-white hover:bg-green-700 transition">
-            View Profile
-          </button>
-        </div>
-        <div className="bg-white rounded-2xl shadow p-5 border hover:shadow-lg transition">
-          <img
-            src="https://i.pravatar.cc/150?img=32"
-            // alt={tutor.name}
-            className="w-24 h-24 rounded-full mx-auto mb-3"
-          />
-
-          <h3 className="text-lg font-semibold text-center">Mehedi Hasan</h3>
-          <p className="text-sm text-gray-600 text-center flex items-center justify-center gap-2">
-            <FaUserGraduate /> "Math", "Physics"
-          </p>
-
-          <p className="text-sm text-center mt-2">
-            Expertise: BSc in CSE (RUET)
-          </p>
-          <p className="text-sm text-center text-gray-600">
-            Experience: 2 Years
-          </p>
-
-          <p className="text-sm flex items-center justify-center gap-1 text-yellow-500 mt-1">
-            <FaStar /> 4.8
-          </p>
-
-          <p className="text-sm text-gray-600 flex items-center gap-2 justify-center mt-1">
-            <FaMapMarkerAlt /> Rajshahi – Laxmipur
-          </p>
-
-          <button className="mt-3 w-full py-2 rounded-xl bg-green-600 text-white hover:bg-green-700 transition">
-            View Profile
-          </button>
-        </div>
-        <div className="bg-white rounded-2xl shadow p-5 border hover:shadow-lg transition">
-          <img
-            src="https://i.pravatar.cc/150?img=32"
-            // alt={tutor.name}
-            className="w-24 h-24 rounded-full mx-auto mb-3"
-          />
-
-          <h3 className="text-lg font-semibold text-center">Mehedi Hasan</h3>
-          <p className="text-sm text-gray-600 text-center flex items-center justify-center gap-2">
-            <FaUserGraduate /> "Math", "Physics"
-          </p>
-
-          <p className="text-sm text-center mt-2">
-            Expertise: BSc in CSE (RUET)
-          </p>
-          <p className="text-sm text-center text-gray-600">
-            Experience: 2 Years
-          </p>
-
-          <p className="text-sm flex items-center justify-center gap-1 text-yellow-500 mt-1">
-            <FaStar /> 4.8
-          </p>
-
-          <p className="text-sm text-gray-600 flex items-center gap-2 justify-center mt-1">
-            <FaMapMarkerAlt /> Rajshahi – Laxmipur
-          </p>
-
-          <button className="mt-3 w-full py-2 rounded-xl bg-green-600 text-white hover:bg-green-700 transition">
-            View Profile
+    <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6 mb-6 flex flex-col md:flex-row items-center transition-transform transform hover:scale-105 duration-300">
+      <div className="md:w-1/4 w-full flex justify-center mb-4 md:mb-0">
+        <img
+          src={profilePhoto || "https://via.placeholder.com/150"} // Default image if no profilePhoto
+          alt={teacherName}
+          className="w-32 h-32 rounded-full object-cover border-4 border-blue-500 dark:border-blue-400"
+        />
+      </div>
+      <div className="md:w-3/4 w-full text-center md:text-left">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+          {teacherName}
+        </h2>
+        <p className="text-blue-600 dark:text-blue-300 mb-2 flex items-center justify-center md:justify-start">
+          <FaUserGraduate className="mr-2" /> {qualification} ({experienceYears}{" "}
+          বছর অভিজ্ঞতা)
+        </p>
+        <p className="text-gray-700 dark:text-gray-300 mb-1 flex items-center justify-center md:justify-start">
+          <FaBookOpen className="mr-2" /> বিষয়: {subjects?.join(", ")}
+        </p>
+        <p className="text-gray-700 dark:text-gray-300 mb-1 flex items-center justify-center md:justify-start">
+          ক্লাস: {classLevels?.join(", ") || "N/A"}
+        </p>
+        <p className="text-gray-700 dark:text-gray-300 mb-1 flex items-center justify-center md:justify-start">
+          <FaMapMarkerAlt className="mr-2" /> এলাকা: {teachingArea}
+        </p>
+        <p className="text-gray-700 dark:text-gray-300 mb-1 flex items-center justify-center md:justify-start">
+          <FaDollarSign className="mr-2" /> বেতন: {salaryRange} টাকা
+        </p>
+        <p className="text-gray-700 dark:text-gray-300 mb-4 flex items-center justify-center md:justify-start">
+          <FaClock className="mr-2" /> পছন্দের সময়: {preferredTime}
+        </p>
+        <div className="flex justify-center md:justify-start">
+          <button
+            onClick={() => handleTeacherProfileDetails(_id)}
+            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-full transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
+          >
+            বিস্তারিত দেখুন
           </button>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 
