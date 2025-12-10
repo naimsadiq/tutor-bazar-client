@@ -1,8 +1,13 @@
 import React from "react";
 import { Link, NavLink, Outlet } from "react-router";
-import { MdPostAdd } from "react-icons/md";
 import logoImg from "../assets/tutolBazar-logo.png";
-
+import {
+  MdPersonAdd,
+  MdManageAccounts,
+  MdListAlt,
+  MdPostAdd,
+  MdPeople,
+} from "react-icons/md";
 const DashboardLayout = () => {
   return (
     <div className="drawer max-w-7xl mx-auto lg:drawer-open w-full min-h-screen bg-base-200">
@@ -52,12 +57,7 @@ const DashboardLayout = () => {
           <ul className="menu p-4 w-full flex-1">
             {/* Home */}
             <li>
-              <NavLink
-                to="/dashboard/tutor-request"
-                className={({ isActive }) => {
-                  `${isActive ? "bg-gray-300" : ""}`;
-                }}
-              >
+              <NavLink to="/dashboard/tutor-request">
                 <MdPostAdd size={25} />
                 Post Tuition
               </NavLink>
@@ -66,16 +66,7 @@ const DashboardLayout = () => {
             {/* my tuition */}
             <li>
               <NavLink to="/dashboard/my-tuitions" end>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  className="w-5 h-5"
-                >
-                  <path d="M3 10l9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                </svg>
+                <MdListAlt size={25} />
                 My Tuitions
               </NavLink>
             </li>
@@ -83,17 +74,24 @@ const DashboardLayout = () => {
             {/* //teacher-request */}
             <li>
               <NavLink to="/dashboard/teacher-request" end>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  className="w-5 h-5"
-                >
-                  <path d="M3 10l9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                </svg>
-                Teacher Request
+                <MdPersonAdd size={25} />
+                Create Profile
+              </NavLink>
+            </li>
+
+            {/* // My Profile */}
+            <li>
+              <NavLink to="/dashboard/my-profile" end>
+                <MdManageAccounts size={25} />
+                My Profile
+              </NavLink>
+            </li>
+
+            {/* User Management */}
+            <li>
+              <NavLink to="/dashboard/user-management" end>
+                <MdPeople size={25} />
+                User Management
               </NavLink>
             </li>
 

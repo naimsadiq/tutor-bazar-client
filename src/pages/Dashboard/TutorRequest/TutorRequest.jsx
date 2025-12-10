@@ -144,6 +144,7 @@ const TutorRequest = () => {
       description: data.description,
       startDate: data.startDate,
       status: "pending",
+      createdAt: new Date().toISOString(),
     };
     // console.log(studentData);
     Swal.fire({

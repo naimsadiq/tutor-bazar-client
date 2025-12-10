@@ -12,6 +12,7 @@ import TeacherRequest from "../pages/Dashboard/TeacherRequest/TeacherRequest";
 import TeacherListingPage from "../pages/TeacherListingPage/TeacherListingPage";
 import TeacherProfileDetails from "../pages/TeacherListingPage/TeacherProfileDetails";
 import MyTuitions from "../pages/Dashboard/MyTuitions/MyTuitions";
+import MyProfile from "../pages/Dashboard/MyProfile/MyProfile";
 
 export const router = createBrowserRouter([
   {
@@ -62,6 +63,10 @@ export const router = createBrowserRouter([
       {
         path: "teacher-request",
         element: <TeacherRequest></TeacherRequest>,
+      },
+      {
+        path: "my-profile",
+        element: <MyProfile></MyProfile>,
       },
     ],
   },

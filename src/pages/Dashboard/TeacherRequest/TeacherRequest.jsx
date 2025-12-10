@@ -4,147 +4,14 @@ import Swal from "sweetalert2";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
-// Dummy data for subjects based on class level
-const classSubjectsMap = {
-  "Class 1": ["Bangla", "English", "Mathematics", "General Science"],
-  "Class 2": ["Bangla", "English", "Mathematics", "General Science"],
-  "Class 3": [
-    "Bangla",
-    "English",
-    "Mathematics",
-    "General Science",
-    "Social Science",
-  ],
-  "Class 4": [
-    "Bangla",
-    "English",
-    "Mathematics",
-    "General Science",
-    "Social Science",
-  ],
-  "Class 5": [
-    "Bangla",
-    "English",
-    "Mathematics",
-    "General Science",
-    "Social Science",
-  ],
-  "Class 6": [
-    "Bangla",
-    "English",
-    "Mathematics",
-    "General Science",
-    "History",
-    "Geography",
-    "ICT",
-  ],
-  "Class 7": [
-    "Bangla",
-    "English",
-    "Mathematics",
-    "General Science",
-    "History",
-    "Geography",
-    "ICT",
-  ],
-  "Class 8": [
-    "Bangla",
-    "English",
-    "Mathematics",
-    "Physics",
-    "Chemistry",
-    "Biology",
-    "History",
-    "Geography",
-    "ICT",
-  ],
-  "Class 9": [
-    "Bangla",
-    "English",
-    "Mathematics",
-    "Physics",
-    "Chemistry",
-    "Biology",
-    "Higher Math",
-    "ICT",
-    "Accounting",
-    "Finance",
-    "Economics",
-  ],
-  "Class 10": [
-    "Bangla",
-    "English",
-    "Mathematics",
-    "Physics",
-    "Chemistry",
-    "Biology",
-    "Higher Math",
-    "ICT",
-    "Accounting",
-    "Finance",
-    "Economics",
-  ],
-  "Class 11": [
-    "Bangla",
-    "English",
-    "Physics",
-    "Chemistry",
-    "Biology",
-    "Higher Math",
-    "ICT",
-    "Accounting",
-    "Finance",
-    "Economics",
-  ],
-  "Class 12": [
-    "Bangla",
-    "English",
-    "Physics",
-    "Chemistry",
-    "Biology",
-    "Higher Math",
-    "ICT",
-    "Accounting",
-    "Finance",
-    "Economics",
-  ],
-  "Admission Test": [
-    "Bangla",
-    "English",
-    "Physics",
-    "Chemistry",
-    "Mathematics",
-    "Biology",
-    "General Knowledge",
-  ],
-  "University Level": [
-    "Mathematics",
-    "Physics",
-    "Chemistry",
-    "Biology",
-    "English",
-    "Computer Science",
-    "Engineering Subjects",
-    "Business Subjects",
-  ],
-};
-
 const TeacherRequest = () => {
   const {
     register,
     handleSubmit,
     control,
     formState: { errors },
-    setValue, // Added setValue for dynamically setting form values
     // reset,
-  } = useForm({
-    defaultValues: {
-      classLevels: [], // Initialize as empty arrays for multi-selects
-      subjects: [],
-      medium: [],
-      languages: [],
-    },
-  });
+  } = useForm();
 
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
@@ -178,20 +45,7 @@ const TeacherRequest = () => {
     [teachingLocations]
   );
 
-  // Watch for changes in classLevel and region for dynamic options
-  const selectedClassLevels = useWatch({ control, name: "classLevels" });
-  const selectedRegion = useWatch({ control, name: "teachingAreaRegion" }); // New field for teacher's preferred teaching region
-
-  // Dynamically get available subjects based on selected class levels
-  const availableSubjects = useMemo(() => {
-    if (!selectedClassLevels || selectedClassLevels.length === 0) return [];
-    const subjects = new Set();
-    selectedClassLevels.forEach((level) => {
-      (classSubjectsMap[level] || []).forEach((sub) => subjects.add(sub));
-    });
-    return Array.from(subjects).sort();
-  }, [selectedClassLevels]);
-
+  const selectedRegion = useWatch({ control, name: "teachingAreaRegion" });
   const availableDistricts = districtsByRegion(selectedRegion);
 
   const qualificationOptions = [
@@ -214,31 +68,16 @@ const TeacherRequest = () => {
       cancelButtonText: "Cancel",
     }).then((result) => {
       if (result.isConfirmed) {
-        // Construct the teachingArea string
-        const teachingArea = data.teachingAreaDistrict
-          ? `${data.teachingAreaRegion} - ${data.teachingAreaDistrict}`
-          : data.teachingAreaRegion;
-
         const teacherData = {
-          teacherName: data.teacherName,
-          teacherEmail: user?.email, // Assuming email from auth
-          gender: data.gender,
+          teacherName: user?.displayName,
+          teacherEmail: user?.email,
           experienceYears: parseInt(data.experienceYears),
           qualification: data.qualification,
-          medium: data.medium,
-          subjects: data.subjects,
-          classLevels: data.classLevels,
-          mode: data.mode,
-          teachingArea: teachingArea,
-          preferredTime: data.preferredTime,
-          availableDaysPerWeek: parseInt(data.availableDaysPerWeek),
           salaryRange: data.salaryRange,
           salaryNegotiable: data.salaryNegotiable,
-          shortDescription: data.shortDescription,
           longDescription: data.longDescription,
-          languages: data.languages,
           profilePhoto: user?.photoURL,
-          status: "pending", // Default status
+          status: "pending",
           createdAt: new Date().toISOString(),
         };
 
@@ -259,16 +98,11 @@ const TeacherRequest = () => {
             });
           }
         });
+
+        console.log(teacherData);
       }
     });
   };
-
-  useEffect(() => {
-    if (user) {
-      setValue("teacherName", user.displayName || "");
-      // setValue("teacherEmail", user.email || ""); // Email is handled directly in onSubmit
-    }
-  }, [user, setValue]);
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 p-8 transition-colors duration-300">
