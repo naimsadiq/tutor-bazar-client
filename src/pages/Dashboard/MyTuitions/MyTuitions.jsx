@@ -10,7 +10,9 @@ const MyTuitions = () => {
   const { data: myTuitions = [] } = useQuery({
     queryKey: ["MyTuitions", user],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/student-post/?email=${user?.email}`);
+      const res = await axiosSecure.get(
+        `/student-post?role=student&email=${user.email}`
+      );
       return res.data;
     },
   });

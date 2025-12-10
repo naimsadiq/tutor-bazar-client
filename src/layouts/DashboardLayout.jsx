@@ -7,6 +7,7 @@ import {
   MdListAlt,
   MdPostAdd,
   MdPeople,
+  MdAssignment,
 } from "react-icons/md";
 const DashboardLayout = () => {
   return (
@@ -92,6 +93,14 @@ const DashboardLayout = () => {
               <NavLink to="/dashboard/user-management" end>
                 <MdPeople size={25} />
                 User Management
+              </NavLink>
+            </li>
+
+            {/* Tuition Posts Management */}
+            <li>
+              <NavLink to="/dashboard/tuition-management" end>
+                <MdAssignment size={25} />
+                Tuition Management
               </NavLink>
             </li>
 

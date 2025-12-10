@@ -13,6 +13,8 @@ import TeacherListingPage from "../pages/TeacherListingPage/TeacherListingPage";
 import TeacherProfileDetails from "../pages/TeacherListingPage/TeacherProfileDetails";
 import MyTuitions from "../pages/Dashboard/MyTuitions/MyTuitions";
 import MyProfile from "../pages/Dashboard/MyProfile/MyProfile";
+import UserManagment from "../pages/Dashboard/UserManagment/UserManagment";
+import TuitionManagement from "../pages/Dashboard/TuitionManagement/TuitionManagement";
 
 export const router = createBrowserRouter([
   {
@@ -67,6 +69,14 @@ export const router = createBrowserRouter([
       {
         path: "my-profile",
         element: <MyProfile></MyProfile>,
+      },
+      {
+        path: "user-management",
+        element: <UserManagment></UserManagment>,
+      },
+      {
+        path: "tuition-management",
+        element: <TuitionManagement></TuitionManagement>,
       },
     ],
   },
