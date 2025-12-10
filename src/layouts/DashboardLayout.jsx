@@ -75,6 +75,23 @@ const DashboardLayout = () => {
               </NavLink>
             </li>
 
+            {/* my tuition */}
+            <li>
+              <NavLink to="/dashboard/my-tuitions" end>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                  className="w-5 h-5"
+                >
+                  <path d="M3 10l9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                </svg>
+                My Tuitions
+              </NavLink>
+            </li>
+
             {/* //teacher-request */}
             <li>
               <NavLink to="/dashboard/teacher-request" end>

@@ -11,6 +11,7 @@ import TuitionDetails from "../pages/Dashboard/TutorRequest/TuitionDetails";
 import TeacherRequest from "../pages/Dashboard/TeacherRequest/TeacherRequest";
 import TeacherListingPage from "../pages/TeacherListingPage/TeacherListingPage";
 import TeacherProfileDetails from "../pages/TeacherListingPage/TeacherProfileDetails";
+import MyTuitions from "../pages/Dashboard/MyTuitions/MyTuitions";
 
 export const router = createBrowserRouter([
   {
@@ -53,6 +54,10 @@ export const router = createBrowserRouter([
       {
         path: "tutor-request",
         element: <TutorRequest></TutorRequest>,
+      },
+      {
+        path: "my-tuitions",
+        element: <MyTuitions></MyTuitions>,
       },
       {
         path: "teacher-request",
