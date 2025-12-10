@@ -6,8 +6,8 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 // Dummy data for subjects based on class level
 const classSubjectsMap = {
-  "Class 1": ["Bangla", "English", "Mathematics", "General Science"],
-  "Class 2": ["Bangla", "English", "Mathematics", "General Science"],
+  "Class 1": ["Bangla", "English", "Mathematics"],
+  "Class 2": ["Bangla", "English", "Mathematics"],
   "Class 3": [
     "Bangla",
     "English",
@@ -67,9 +67,6 @@ const classSubjectsMap = {
     "Biology",
     "Higher Math",
     "ICT",
-    "Accounting",
-    "Finance",
-    "Economics",
   ],
   "Class 10": [
     "Bangla",
@@ -80,52 +77,6 @@ const classSubjectsMap = {
     "Biology",
     "Higher Math",
     "ICT",
-    "Accounting",
-    "Finance",
-    "Economics",
-  ],
-  "Class 11": [
-    "Bangla",
-    "English",
-    "Physics",
-    "Chemistry",
-    "Biology",
-    "Higher Math",
-    "ICT",
-    "Accounting",
-    "Finance",
-    "Economics",
-  ],
-  "Class 12": [
-    "Bangla",
-    "English",
-    "Physics",
-    "Chemistry",
-    "Biology",
-    "Higher Math",
-    "ICT",
-    "Accounting",
-    "Finance",
-    "Economics",
-  ],
-  "Admission Test": [
-    "Bangla",
-    "English",
-    "Physics",
-    "Chemistry",
-    "Mathematics",
-    "Biology",
-    "General Knowledge",
-  ],
-  "University Level": [
-    "Mathematics",
-    "Physics",
-    "Chemistry",
-    "Biology",
-    "English",
-    "Computer Science",
-    "Engineering Subjects",
-    "Business Subjects",
   ],
 };
 
@@ -133,7 +84,7 @@ const TutorRequest = () => {
   const {
     register,
     handleSubmit,
-    control, // Added control for useWatch
+    control,
     formState: { errors },
     // reset,
   } = useForm();
@@ -155,21 +106,20 @@ const TutorRequest = () => {
   const regions = useMemo(() => {
     const regionsDuplicate = studentLocation.map((c) => c.region);
     return [...new Set(regionsDuplicate)];
-  }, [studentLocation]); // Empty dependency array means it runs only once
+  }, [studentLocation]);
 
   // useCallback for districtsByRegion to memoize the function
   const districtsByRegion = useCallback(
     (region) => {
       if (!region) return [];
-      // Filter by region and map to district, then remove duplicates
       const regionDistricts = studentLocation.filter(
         (c) => c.region === region
       );
       const districts = regionDistricts.map((d) => d.district);
-      return [...new Set(districts)]; // Ensure unique districts
+      return [...new Set(districts)];
     },
     [studentLocation]
-  ); // Empty dependency array means it runs only once
+  );
 
   // Watch for changes in classLevel and region for dynamic options
   const selectedClassLevel = useWatch({ control, name: "classLevel" });
@@ -179,19 +129,23 @@ const TutorRequest = () => {
     ? classSubjectsMap[selectedClassLevel] || []
     : [];
   const availableDistricts = districtsByRegion(selectedRegion);
-
-  const mediums = ["Bangla Version", "English Version", "English Medium"];
-  const modes = ["Online", "Offline", "Both"];
-  const daysOptions = [1, 2, 3, 4, 5, 6, 7];
-  const durationOptions = ["1 hour", "1.5 hours", "2 hours"];
-  const timeOptions = [
-    "Morning (8 AM – 12 PM)",
-    "Afternoon (1 PM – 5 PM)",
-    "Evening (6 PM – 9 PM)",
-    "Night (9 PM – 11 PM)",
-  ];
-
+  // console.log(user);
   const onSubmit = (data) => {
+    const studentData = {
+      studentName: user?.displayName,
+      studentEmail: user?.email,
+      photoURL: user?.photoURL,
+      classLevel: data.classLevel,
+      subject: data.subject,
+      region: data.region,
+      district: data.district,
+      budget: data.budget,
+      budgetNegotiable: data.budgetNegotiable,
+      description: data.description,
+      startDate: data.startDate,
+      status: "pending",
+    };
+    // console.log(studentData);
     Swal.fire({
       title: "Need a Teacher!",
       text: "Do you want to submit the form now?",
@@ -201,7 +155,7 @@ const TutorRequest = () => {
       cancelButtonText: "Cancel",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosSecure.post("/tutor-request", data).then((res) => {
+        axiosSecure.post("/student-post", studentData).then((res) => {
           if (res.data.insertedId) {
             Swal.fire({
               title: "Submitted!",
@@ -300,37 +254,6 @@ const TutorRequest = () => {
                   </p>
                 )}
               </div>
-
-              {/* Medium */}
-              <div>
-                <label
-                  htmlFor="medium"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-                >
-                  Medium
-                </label>
-                <select
-                  id="medium"
-                  {...register("medium", { required: "Medium is required" })}
-                  className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${
-                    errors.medium
-                      ? "border-red-500 dark:border-red-500"
-                      : "border-gray-300 dark:border-gray-600"
-                  }`}
-                >
-                  <option value="">Select Medium</option>
-                  {mediums.map((med) => (
-                    <option key={med} value={med}>
-                      {med}
-                    </option>
-                  ))}
-                </select>
-                {errors.medium && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {errors.medium.message}
-                  </p>
-                )}
-              </div>
             </div>
           </section>
           {/* Section 2: Location & Schedule */}
@@ -404,137 +327,6 @@ const TutorRequest = () => {
                 {errors.district && (
                   <p className="text-red-500 text-xs mt-1">
                     {errors.district.message}
-                  </p>
-                )}
-              </div>
-
-              {/* Mode */}
-              <div>
-                <label
-                  htmlFor="mode"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-                >
-                  Mode
-                </label>
-                <select
-                  id="mode"
-                  {...register("mode", { required: "Mode is required" })}
-                  className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${
-                    errors.mode
-                      ? "border-red-500 dark:border-red-500"
-                      : "border-gray-300 dark:border-gray-600"
-                  }`}
-                >
-                  <option value="">Select Mode</option>
-                  {modes.map((m) => (
-                    <option key={m} value={m}>
-                      {m}
-                    </option>
-                  ))}
-                </select>
-                {errors.mode && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {errors.mode.message}
-                  </p>
-                )}
-              </div>
-
-              {/* Days Per Week */}
-              <div>
-                <label
-                  htmlFor="daysPerWeek"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-                >
-                  Days Per Week
-                </label>
-                <select
-                  id="daysPerWeek"
-                  {...register("daysPerWeek", {
-                    required: "Days per week is required",
-                    min: { value: 1, message: "Must be at least 1 day" },
-                  })}
-                  className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${
-                    errors.daysPerWeek
-                      ? "border-red-500 dark:border-red-500"
-                      : "border-gray-300 dark:border-gray-600"
-                  }`}
-                >
-                  <option value="">Select Days</option>
-                  {daysOptions.map((day) => (
-                    <option key={day} value={day}>
-                      {day}
-                    </option>
-                  ))}
-                </select>
-                {errors.daysPerWeek && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {errors.daysPerWeek.message}
-                  </p>
-                )}
-              </div>
-
-              {/* Class Duration */}
-              <div>
-                <label
-                  htmlFor="classDuration"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-                >
-                  Class Duration
-                </label>
-                <select
-                  id="classDuration"
-                  {...register("classDuration", {
-                    required: "Class Duration is required",
-                  })}
-                  className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${
-                    errors.classDuration
-                      ? "border-red-500 dark:border-red-500"
-                      : "border-gray-300 dark:border-gray-600"
-                  }`}
-                >
-                  <option value="">Select Duration</option>
-                  {durationOptions.map((duration) => (
-                    <option key={duration} value={duration}>
-                      {duration}
-                    </option>
-                  ))}
-                </select>
-                {errors.classDuration && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {errors.classDuration.message}
-                  </p>
-                )}
-              </div>
-
-              {/* Preferred Time */}
-              <div>
-                <label
-                  htmlFor="preferredTime"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-                >
-                  Preferred Time
-                </label>
-                <select
-                  id="preferredTime"
-                  {...register("preferredTime", {
-                    required: "Preferred Time is required",
-                  })}
-                  className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${
-                    errors.preferredTime
-                      ? "border-red-500 dark:border-red-500"
-                      : "border-gray-300 dark:border-gray-600"
-                  }`}
-                >
-                  <option value="">Select Preferred Time</option>
-                  {timeOptions.map((time) => (
-                    <option key={time} value={time}>
-                      {time}
-                    </option>
-                  ))}
-                </select>
-                {errors.preferredTime && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {errors.preferredTime.message}
                   </p>
                 )}
               </div>
@@ -650,77 +442,12 @@ const TutorRequest = () => {
               )}
             </div>
           </section>
-          {/* Section 4: Contact Information */}
-          <section className="p-6 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm space-y-4">
-            <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4 border-b pb-2 border-gray-300 dark:border-gray-600">
-              4. Contact Information
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* Student Name */}
-              <div>
-                <label
-                  htmlFor="studentName"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-                >
-                  Student Name
-                </label>
-                <input
-                  type="text"
-                  defaultValue={user?.displayName}
-                  id="studentName"
-                  {...register("studentName", {
-                    required: "Student Name is required",
-                  })}
-                  className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${
-                    errors.studentName
-                      ? "border-red-500 dark:border-red-500"
-                      : "border-gray-300 dark:border-gray-600"
-                  }`}
-                  placeholder="Student Name"
-                />
-                {errors.studentName && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {errors.studentName.message}
-                  </p>
-                )}
-              </div>
-
-              {/* Student Email */}
-              <div>
-                <label
-                  htmlFor=" studentEmail"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-                >
-                  Student Email
-                </label>
-                <input
-                  type="tel"
-                  id=" studentEmail"
-                  defaultValue={user?.email}
-                  {...register(" studentEmail", {
-                    required: "Student Email is required",
-                  })}
-                  className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${
-                    errors.studentEmail
-                      ? "border-red-500 dark:border-red-500"
-                      : "border-gray-300 dark:border-gray-600"
-                  }`}
-                  placeholder="Email"
-                />
-                {errors.studentEmail && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {errors.studentEmail.message}
-                  </p>
-                )}
-              </div>
-            </div>
-          </section>
           {/* Submit Button (Full width, outside sections) */}
           <button
             type="submit"
             className="w-full flex justify-center py-3 px-6 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600 transition duration-300 ease-in-out"
           >
-            Submit Tutor Request
+            Post Tuition
           </button>
         </form>
       </div>

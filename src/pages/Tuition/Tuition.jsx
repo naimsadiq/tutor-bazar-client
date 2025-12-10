@@ -10,7 +10,7 @@ const Tuition = () => {
     queryKey: ["tuitionPosts"],
     queryFn: async () => {
       const result = await axiosSecure(
-        `${import.meta.env.VITE_API_URL}/tutor-request`
+        `${import.meta.env.VITE_API_URL}/student-post`
       );
       return result.data;
     },

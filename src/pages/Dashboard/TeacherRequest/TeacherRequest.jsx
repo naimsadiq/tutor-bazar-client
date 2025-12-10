@@ -194,15 +194,6 @@ const TeacherRequest = () => {
 
   const availableDistricts = districtsByRegion(selectedRegion);
 
-  const mediums = ["Bangla Version", "English Version", "English Medium"];
-  const modes = ["Online", "Offline", "Both"];
-  const daysOptions = [1, 2, 3, 4, 5, 6, 7];
-  const timeOptions = [
-    "Morning (8 AM – 12 PM)",
-    "Afternoon (1 PM – 5 PM)",
-    "Evening (6 PM – 9 PM)",
-    "Night (9 PM – 11 PM)",
-  ];
   const qualificationOptions = [
     "HSC",
     "BSc Running",
@@ -212,8 +203,6 @@ const TeacherRequest = () => {
     "PhD",
     "Other",
   ];
-  const genderOptions = ["Male", "Female", "Other"];
-  const languageOptions = ["Bangla", "English", "Hindi", "Urdu", "Other"];
 
   const onSubmit = (data) => {
     Swal.fire({
@@ -355,261 +344,15 @@ const TeacherRequest = () => {
                   </p>
                 )}
               </div>
-
-              {/* Class Levels (Multi-select) */}
-              <div>
-                <label
-                  htmlFor="classLevels"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-                >
-                  Class Levels You Can Teach
-                </label>
-
-                <select
-                  id="classLevels"
-                  multiple
-                  {...register("classLevels", {
-                    required: "At least one class level is required",
-                  })}
-                  className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${
-                    errors.classLevels
-                      ? "border-red-500 dark:border-red-500"
-                      : "border-gray-300 dark:border-gray-600"
-                  }`}
-                  size="5" // Show multiple options at once
-                >
-                  {Object.keys(classSubjectsMap).map((level) => (
-                    <option key={level} value={level}>
-                      {level}
-                    </option>
-                  ))}
-                </select>
-                {errors.classLevels && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {errors.classLevels.message}
-                  </p>
-                )}
-              </div>
-
-              {/* Subjects (Multi-select, dynamic based on class levels) */}
-              <div>
-                <label
-                  htmlFor="subjects"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-                >
-                  Subjects You Can Teach
-                </label>
-
-                <select
-                  id="subjects"
-                  multiple
-                  {...register("subjects", {
-                    required: "At least one subject is required",
-                  })}
-                  className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${
-                    errors.subjects
-                      ? "border-red-500 dark:border-red-500"
-                      : "border-gray-300 dark:border-gray-600"
-                  }`}
-                  disabled={
-                    !selectedClassLevels || availableSubjects.length === 0
-                  }
-                  size="5"
-                >
-                  <option value="" disabled>
-                    {selectedClassLevels && selectedClassLevels.length > 0
-                      ? "Select Subjects"
-                      : "Select Class Levels First"}
-                  </option>
-                  {availableSubjects.map((sub) => (
-                    <option key={sub} value={sub}>
-                      {sub}
-                    </option>
-                  ))}
-                </select>
-                {errors.subjects && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {errors.subjects.message}
-                  </p>
-                )}
-              </div>
-
-              {/* Medium (Multi-select) */}
-              <div>
-                <label
-                  htmlFor="medium"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-                >
-                  Teaching Mediums
-                </label>
-                <select
-                  id="medium"
-                  multiple
-                  {...register("medium", {
-                    required: "At least one medium is required",
-                  })}
-                  className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${
-                    errors.medium
-                      ? "border-red-500 dark:border-red-500"
-                      : "border-gray-300 dark:border-gray-600"
-                  }`}
-                  size="3"
-                >
-                  {mediums.map((med) => (
-                    <option key={med} value={med}>
-                      {med}
-                    </option>
-                  ))}
-                </select>
-                {errors.medium && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {errors.medium.message}
-                  </p>
-                )}
-              </div>
-
-              {/* Languages (Multi-select) */}
-              <div>
-                <label
-                  htmlFor="languages"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-                >
-                  Languages You Can Teach In
-                </label>
-                <select
-                  id="languages"
-                  multiple
-                  {...register("languages", {
-                    required: "At least one language is required",
-                  })}
-                  className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${
-                    errors.languages
-                      ? "border-red-500 dark:border-red-500"
-                      : "border-gray-300 dark:border-gray-600"
-                  }`}
-                  size="3"
-                >
-                  {languageOptions.map((lang) => (
-                    <option key={lang} value={lang}>
-                      {lang}
-                    </option>
-                  ))}
-                </select>
-                {errors.languages && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {errors.languages.message}
-                  </p>
-                )}
-              </div>
             </div>
           </section>
 
           {/* Section 3: Availability & Preferences */}
           <section className="p-6 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm space-y-4">
             <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4 border-b pb-2 border-gray-300 dark:border-gray-600">
-              3. Availability & Preferences
+              Availability & Preferences
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* Mode */}
-              <div>
-                <label
-                  htmlFor="mode"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-                >
-                  Preferred Teaching Mode
-                </label>
-                <select
-                  id="mode"
-                  {...register("mode", {
-                    required: "Teaching Mode is required",
-                  })}
-                  className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${
-                    errors.mode
-                      ? "border-red-500 dark:border-red-500"
-                      : "border-gray-300 dark:border-gray-600"
-                  }`}
-                >
-                  <option value="">Select Mode</option>
-                  {modes.map((m) => (
-                    <option key={m} value={m}>
-                      {m}
-                    </option>
-                  ))}
-                </select>
-                {errors.mode && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {errors.mode.message}
-                  </p>
-                )}
-              </div>
-
-              {/* Days Per Week */}
-              <div>
-                <label
-                  htmlFor="availableDaysPerWeek"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-                >
-                  Available Days Per Week
-                </label>
-                <select
-                  id="availableDaysPerWeek"
-                  {...register("availableDaysPerWeek", {
-                    required: "Days per week is required",
-                    min: { value: 1, message: "Must be at least 1 day" },
-                  })}
-                  className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${
-                    errors.availableDaysPerWeek
-                      ? "border-red-500 dark:border-red-500"
-                      : "border-gray-300 dark:border-gray-600"
-                  }`}
-                >
-                  <option value="">Select Days</option>
-                  {daysOptions.map((day) => (
-                    <option key={day} value={day}>
-                      {day}
-                    </option>
-                  ))}
-                </select>
-                {errors.availableDaysPerWeek && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {errors.availableDaysPerWeek.message}
-                  </p>
-                )}
-              </div>
-
-              {/* Preferred Time */}
-              <div>
-                <label
-                  htmlFor="preferredTime"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-                >
-                  Preferred Teaching Time
-                </label>
-                <select
-                  id="preferredTime"
-                  {...register("preferredTime", {
-                    required: "Preferred Time is required",
-                  })}
-                  className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${
-                    errors.preferredTime
-                      ? "border-red-500 dark:border-red-500"
-                      : "border-gray-300 dark:border-gray-600"
-                  }`}
-                >
-                  <option value="">Select Preferred Time</option>
-                  {timeOptions.map((time) => (
-                    <option key={time} value={time}>
-                      {time}
-                    </option>
-                  ))}
-                </select>
-                {errors.preferredTime && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {errors.preferredTime.message}
-                  </p>
-                )}
-              </div>
-
               {/* Teaching Area Region (Dropdown) */}
               <div>
                 <label
@@ -684,7 +427,7 @@ const TeacherRequest = () => {
           {/* Section 4: Salary & Description */}
           <section className="p-6 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm space-y-4">
             <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4 border-b pb-2 border-gray-300 dark:border-gray-600">
-              4. Salary & Description
+              Salary & Description
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Salary Range */}
@@ -732,39 +475,7 @@ const TeacherRequest = () => {
               </div>
             </div>
 
-            {/* Short Description */}
-            <div className="col-span-full">
-              <label
-                htmlFor="shortDescription"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-              >
-                Short Introduction / Motto (Max 150 chars)
-              </label>
-              <textarea
-                id="shortDescription"
-                {...register("shortDescription", {
-                  required: "Short description is required",
-                  maxLength: {
-                    value: 150,
-                    message: "Maximum 150 characters allowed",
-                  },
-                })}
-                rows="2"
-                className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${
-                  errors.shortDescription
-                    ? "border-red-500 dark:border-red-500"
-                    : "border-gray-300 dark:border-gray-600"
-                }`}
-                placeholder="e.g., Friendly and concept-based tutor, helps students understand math & physics from basics."
-              ></textarea>
-              {errors.shortDescription && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.shortDescription.message}
-                </p>
-              )}
-            </div>
-
-            {/* Long Description (Full width) */}
+            {/* Description (Full width) */}
             <div className="col-span-full">
               <label
                 htmlFor="longDescription"

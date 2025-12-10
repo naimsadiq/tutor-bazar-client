@@ -7,18 +7,49 @@ const MyTuitions = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
 
-  const { data: MyTuitions = [] } = useQuery({
-    queryKey: ["MyTuitions", user?.email],
+  const { data: myTuitions = [] } = useQuery({
+    queryKey: ["MyTuitions", user],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/tutor-request?email=${user?.email}`);
+      const res = await axiosSecure.get(`/student-post/?email=${user?.email}`);
       return res.data;
     },
   });
 
-  console.log(MyTuitions);
+  console.log(myTuitions);
   return (
     <div>
-      <h1>hi</h1>
+      <h1>My Tuition</h1>
+
+      <div>
+        <div className="overflow-x-auto">
+          <table className="table table-zebra">
+            {/* head */}
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Stutas</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {myTuitions.map((tuition, index) => (
+                <tr key={tuition._id}>
+                  <th>{index + 1}</th>
+                  <td>{tuition.studentName}</td>
+                  <td>{tuition.studentEmail}</td>
+                  <td>{tuition.status}</td>
+                  <td className="flex gap-3">
+                    <button className="btn">Edit</button>
+                    <button className="btn">Delete</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 };

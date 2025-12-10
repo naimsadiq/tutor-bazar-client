@@ -1,15 +1,7 @@
 import React from "react";
 import { Link, NavLink, Outlet } from "react-router";
-import { CiDeliveryTruck } from "react-icons/ci";
-import {
-  FaRegCreditCard,
-  FaTasks,
-  FaUsers,
-  FaMotorcycle,
-} from "react-icons/fa";
+import { MdPostAdd } from "react-icons/md";
 import logoImg from "../assets/tutolBazar-logo.png";
-import { SiGoogletasks } from "react-icons/si";
-import { RiEBikeFill } from "react-icons/ri";
 
 const DashboardLayout = () => {
   return (
@@ -60,18 +52,14 @@ const DashboardLayout = () => {
           <ul className="menu p-4 w-full flex-1">
             {/* Home */}
             <li>
-              <NavLink to="/dashboard/tutor-request" end>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  className="w-5 h-5"
-                >
-                  <path d="M3 10l9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                </svg>
-                Tutor Request
+              <NavLink
+                to="/dashboard/tutor-request"
+                className={({ isActive }) => {
+                  `${isActive ? "bg-gray-300" : ""}`;
+                }}
+              >
+                <MdPostAdd size={25} />
+                Post Tuition
               </NavLink>
             </li>
 
