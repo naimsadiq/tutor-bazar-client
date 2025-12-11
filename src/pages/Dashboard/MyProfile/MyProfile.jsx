@@ -58,24 +58,25 @@ const MyProfile = () => {
       {/* Profile Top Card */}
       <div className="flex flex-col md:flex-row items-center bg-white shadow-lg rounded-xl p-6 mb-8">
         <img
-          src={teacher.profilePhoto}
+          src={teacher?.profilePhoto}
           alt="Profile"
           className="w-40 h-40 rounded-full object-cover border-4 border-blue-500 mb-4 md:mb-0 md:mr-8"
         />
         <div className="flex-1 space-y-3">
           <h2 className="text-2xl font-semibold text-gray-800 flex items-center">
-            <FaUser className="mr-2 text-blue-500" /> {teacher.teacherName}
+            <FaUser className="mr-2 text-blue-500" /> {teacher?.teacherName}
           </h2>
           <p className="flex items-center text-gray-600">
-            <FaEnvelope className="mr-2 text-blue-500" /> {teacher.teacherEmail}
+            <FaEnvelope className="mr-2 text-blue-500" />{" "}
+            {teacher?.teacherEmail}
           </p>
           <p className="flex items-center text-gray-600">
             <FaGraduationCap className="mr-2 text-blue-500" />{" "}
-            {teacher.qualification}
+            {teacher?.qualification}
           </p>
           <p className="flex items-center text-gray-600">
             <FaBriefcase className="mr-2 text-blue-500" />{" "}
-            {teacher.experienceYears} years experience
+            {teacher?.experienceYears} years experience
           </p>
         </div>
       </div>
@@ -87,8 +88,8 @@ const MyProfile = () => {
           <div>
             <h3 className="text-lg font-semibold text-gray-800">Salary</h3>
             <p className="text-gray-600">
-              {teacher.salaryRange}{" "}
-              {teacher.salaryNegotiable ? "(Negotiable)" : ""}
+              {teacher?.salaryRange}{" "}
+              {teacher?.salaryNegotiable ? "(Negotiable)" : ""}
             </p>
           </div>
         </div>
@@ -96,7 +97,7 @@ const MyProfile = () => {
           <FaInfoCircle className="text-yellow-500 text-2xl mr-4" />
           <div>
             <h3 className="text-lg font-semibold text-gray-800">Status</h3>
-            <p className="text-gray-600 capitalize">{teacher.status}</p>
+            <p className="text-gray-600 capitalize">{teacher?.status}</p>
           </div>
         </div>
       </div>
@@ -104,7 +105,7 @@ const MyProfile = () => {
       {/* Description */}
       <div className="bg-white shadow-md rounded-xl p-6 mb-8">
         <h3 className="text-lg font-semibold text-gray-800 mb-2">About Me</h3>
-        <p className="text-gray-600">{teacher.longDescription}</p>
+        <p className="text-gray-600">{teacher?.longDescription}</p>
       </div>
     </div>
   );

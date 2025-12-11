@@ -10,6 +10,7 @@ import {
   MdAssignment,
   MdPersonSearch,
   MdHowToReg,
+  MdHistory,
 } from "react-icons/md";
 const DashboardLayout = () => {
   return (
@@ -79,6 +80,14 @@ const DashboardLayout = () => {
               <NavLink to="/dashboard/applied-tutors" end>
                 <MdHowToReg size={25} />
                 Applied Tutors
+              </NavLink>
+            </li>
+
+            {/* Payment History */}
+            <li>
+              <NavLink to="/dashboard/payment-history" end>
+                <MdHistory size={25} />
+                Payment History
               </NavLink>
             </li>
 

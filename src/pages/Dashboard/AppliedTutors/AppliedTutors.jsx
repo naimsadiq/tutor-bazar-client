@@ -28,6 +28,7 @@ const AppliedTutors = () => {
     const paymentInfo = {
       tuitionId: tutor.tuitionId,
       studentEmail: user?.email,
+      tutorEmail: tutor.tutorEmail,
       subject: tutor.subject,
       price: tutor.expectedSalary,
       studentName: user?.displayName,
@@ -40,7 +41,7 @@ const AppliedTutors = () => {
       paymentInfo
     );
 
-    window.location.href = data.url;
+    window.location.assign(data.url);
   };
 
   if (isLoading) return <p>Loading applied tutors...</p>;
