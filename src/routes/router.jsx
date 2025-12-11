@@ -17,6 +17,7 @@ import TuitionManagement from "../pages/Dashboard/TuitionManagement/TuitionManag
 import TeacherApplications from "../pages/Dashboard/TeacherApplications/TeacherApplications";
 import TuitionDetails from "../pages/Tuition/TuitionDetails";
 import AppliedTutors from "../pages/Dashboard/AppliedTutors/AppliedTutors";
+import PaymentSuccess from "../pages/Dashboard/PaymentSuccess/PaymentSuccess";
 
 export const router = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ export const router = createBrowserRouter([
       },
       { path: "/signup", element: <SignUp /> },
       { path: "/signin", element: <SignIn /> },
+      {
+        path: "/payment-success",
+        element: <PaymentSuccess />,
+      },
     ],
   },
 

@@ -24,6 +24,25 @@ const AppliedTutors = () => {
     },
   });
 
+  const handlePayment = async (tutor) => {
+    const paymentInfo = {
+      tuitionId: tutor.tuitionId,
+      studentEmail: user?.email,
+      subject: tutor.subject,
+      price: tutor.expectedSalary,
+      studentName: user?.displayName,
+      image: user?.photoURL,
+      classLevel: tutor.classLevel,
+    };
+
+    const { data } = await axiosSecure.post(
+      "/create-checkout-session",
+      paymentInfo
+    );
+
+    window.location.href = data.url;
+  };
+
   if (isLoading) return <p>Loading applied tutors...</p>;
   if (error) return <p>Failed to load applied tutors.</p>;
   if (appliedTutors.length === 0) return <p>No tutors have applied yet.</p>;
@@ -60,7 +79,12 @@ const AppliedTutors = () => {
                 </td>
                 <td>{tutor.status}</td>
                 <td className="flex gap-3">
-                  <button className="btn btn-success">Accept</button>
+                  <button
+                    onClick={() => handlePayment(tutor)}
+                    className="btn btn-success"
+                  >
+                    Accept
+                  </button>
                   <button className="btn btn-error">Reject</button>
                 </td>
               </tr>
