@@ -3,11 +3,14 @@ import React from "react";
 import { useNavigate, useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useAuth from "../../hooks/useAuth";
+import Swal from "sweetalert2";
 
 const TuitionDetails = () => {
   const { id } = useParams(); // URL থেকে পোস্টের ID নিন
   const navigate = useNavigate(); // প্রোগ্রাম্যাটিক্যালি নেভিগেট করার জন্য
 
+  const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
 
   const { data: post = {}, isLoading } = useQuery({
@@ -20,12 +23,65 @@ const TuitionDetails = () => {
     },
   });
 
-  const handleApply = () => {
-    // এখানে শিক্ষক আবেদনের লজিক যোগ করুন
-    // যেমন: একটি ফর্ম দেখানো, বা একটি মডাল খোলা, অথবা সরাসরি একটি API কল করা।
-    alert("আপনি এই পোস্টে আবেদন করেছেন! (এটি শুধুমাত্র একটি ডেমো)");
-    // আবেদনের পর আপনি চাইলে অন্য কোনো পেজে রিডাইরেক্ট করতে পারেন
-    // navigate('/application-success');
+  const handleApply = (post) => {
+    Swal.fire({
+      title: "Apply for Tuition?",
+      text: "Do you want to submit your application now?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Apply Now",
+      cancelButtonText: "Cancel",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const appliedTutorsData = {
+          studentName: post.studentName,
+          studentEmail: post.studentEmail,
+          subject: post.subject,
+          tuitionId: post._id,
+          tutorEmail: user.email,
+          expectedSalary: post.budget,
+          classLevel: post.classLevel,
+        };
+
+        axiosSecure
+          .post("/apply-tutor", appliedTutorsData)
+          .then((res) => {
+            // Success case
+            if (res.data.insertedId) {
+              Swal.fire({
+                title: "Application Submitted!",
+                text: "Your application has been sent successfully.",
+                icon: "success",
+              });
+            } else if (res.data.message === "Already applied!") {
+              // Duplicate check (if backend sends 200 for duplicate)
+              Swal.fire({
+                title: "Already Applied!",
+                text: "You have already applied for this tuition.",
+                icon: "warning",
+              });
+            }
+          })
+          .catch((error) => {
+            // Axios considers status 400 as error
+            if (error.response?.data?.message === "Already applied!") {
+              Swal.fire({
+                title: "Already Applied!",
+                text: "You have already applied for this tuition.",
+                icon: "warning",
+              });
+            } else {
+              Swal.fire({
+                title: "Error!",
+                text: "Something went wrong. Please try again.",
+                icon: "error",
+              });
+            }
+          });
+
+        console.log(appliedTutorsData);
+      }
+    });
   };
 
   if (isLoading) {
@@ -175,7 +231,7 @@ const TuitionDetails = () => {
 
         <div className="text-center mt-10">
           <button
-            onClick={handleApply}
+            onClick={() => handleApply(post)}
             className="bg-green-600 text-white text-xl font-bold py-3 px-8 rounded-full hover:bg-green-700 transition-colors duration-300 shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-green-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
           >
             এই পোস্টের জন্য আবেদন করুন

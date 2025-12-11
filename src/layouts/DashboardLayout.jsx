@@ -9,6 +9,7 @@ import {
   MdPeople,
   MdAssignment,
   MdPersonSearch,
+  MdHowToReg,
 } from "react-icons/md";
 const DashboardLayout = () => {
   return (
@@ -70,6 +71,14 @@ const DashboardLayout = () => {
               <NavLink to="/dashboard/my-tuitions" end>
                 <MdListAlt size={25} />
                 My Tuitions
+              </NavLink>
+            </li>
+
+            {/* Applied Tutors */}
+            <li>
+              <NavLink to="/dashboard/applied-tutors" end>
+                <MdHowToReg size={25} />
+                Applied Tutors
               </NavLink>
             </li>
 

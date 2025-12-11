@@ -16,6 +16,7 @@ import UserManagment from "../pages/Dashboard/UserManagment/UserManagment";
 import TuitionManagement from "../pages/Dashboard/TuitionManagement/TuitionManagement";
 import TeacherApplications from "../pages/Dashboard/TeacherApplications/TeacherApplications";
 import TuitionDetails from "../pages/Tuition/TuitionDetails";
+import AppliedTutors from "../pages/Dashboard/AppliedTutors/AppliedTutors";
 
 export const router = createBrowserRouter([
   {
@@ -62,6 +63,10 @@ export const router = createBrowserRouter([
       {
         path: "my-tuitions",
         element: <MyTuitions></MyTuitions>,
+      },
+      {
+        path: "applied-tutors",
+        element: <AppliedTutors></AppliedTutors>,
       },
       {
         path: "teacher-request",
