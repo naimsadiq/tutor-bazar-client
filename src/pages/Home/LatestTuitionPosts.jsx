@@ -10,7 +10,7 @@ const LatestTuitionPosts = () => {
     queryKey: ["latestPosts"],
     queryFn: async () => {
       const result = await axiosSecure(
-        `${import.meta.env.VITE_API_URL}/student-post?role=public`
+        `${import.meta.env.VITE_API_URL}/student-post-latest`
       );
       return result.data;
     },

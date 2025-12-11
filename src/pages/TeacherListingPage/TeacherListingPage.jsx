@@ -10,7 +10,7 @@ const TeacherListingPage = () => {
     queryKey: ["teacherProfiles"],
     queryFn: async () => {
       const result = await axiosSecure(
-        `${import.meta.env.VITE_API_URL}/teacher-profile`
+        `${import.meta.env.VITE_API_URL}/teacher-profile?role=public`
       );
       return result.data;
     },

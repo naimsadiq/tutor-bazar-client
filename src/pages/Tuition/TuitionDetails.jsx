@@ -1,8 +1,8 @@
 // src/pages/TuitionDetails.jsx
 import React from "react";
 import { useNavigate, useParams } from "react-router";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const TuitionDetails = () => {
   const { id } = useParams(); // URL থেকে পোস্টের ID নিন
@@ -14,7 +14,7 @@ const TuitionDetails = () => {
     queryKey: ["post"],
     queryFn: async () => {
       const result = await axiosSecure(
-        `${import.meta.env.VITE_API_URL}/tutor-request/${id}`
+        `${import.meta.env.VITE_API_URL}/student-post/${id}`
       );
       return result.data;
     },

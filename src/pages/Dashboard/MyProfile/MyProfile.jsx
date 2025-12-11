@@ -7,21 +7,43 @@ import {
   FaDollarSign,
   FaInfoCircle,
 } from "react-icons/fa";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
+import useAuth from "../../../hooks/useAuth";
 
 const MyProfile = () => {
+  const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
+
+  const { data: teacherData = [], isLoading } = useQuery({
+    queryKey: ["teacherData", user],
+    queryFn: async () => {
+      const res = await axiosSecure.get(
+        `/teacher-profile?role=teacher&email=${user.email}`
+      );
+      return res.data;
+    },
+  });
+
+  // console.log(teacher);
   // Provided teacher data
-  const teacher = {
-    teacherName: "teacher1",
-    teacherEmail: "teacher1@g.com",
-    experienceYears: 2,
-    qualification: "MSc Running",
-    salaryRange: "2000",
-    salaryNegotiable: true,
-    longDescription: "dsaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-    profilePhoto: "https://i.ibb.co/sJw9pGNn/1600w-IYcg-Pn-Jtx3-Q.webp",
-    status: "pending",
-    createdAt: "2025-12-10T12:12:37.088Z",
-  };
+  // const teacher = {
+  //   teacherName: "teacher1",
+  //   teacherEmail: "teacher1@g.com",
+  //   experienceYears: 2,
+  //   qualification: "MSc Running",
+  //   salaryRange: "2000",
+  //   salaryNegotiable: true,
+  //   longDescription: "dsaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  //   profilePhoto: "https://i.ibb.co/sJw9pGNn/1600w-IYcg-Pn-Jtx3-Q.webp",
+  //   status: "pending",
+  //   createdAt: "2025-12-10T12:12:37.088Z",
+  // };
+
+  const teacher = Array.isArray(teacherData) ? teacherData[0] : teacherData;
+  console.log(teacher);
+
+  if (isLoading) return <p className="text-center mt-10">Loading profile...</p>;
 
   return (
     <div className="max-w-4xl mx-auto p-6">

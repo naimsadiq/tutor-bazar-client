@@ -7,7 +7,6 @@ import DashboardLayout from "../layouts/DashboardLayout";
 import DashboardHome from "../pages/Dashboard/Home/DashboardHome";
 import TutorRequest from "../pages/Dashboard/TutorRequest/TutorRequest";
 import Tuition from "../pages/Tuition/Tuition";
-import TuitionDetails from "../pages/Dashboard/TutorRequest/TuitionDetails";
 import TeacherRequest from "../pages/Dashboard/TeacherRequest/TeacherRequest";
 import TeacherListingPage from "../pages/TeacherListingPage/TeacherListingPage";
 import TeacherProfileDetails from "../pages/TeacherListingPage/TeacherProfileDetails";
@@ -15,6 +14,8 @@ import MyTuitions from "../pages/Dashboard/MyTuitions/MyTuitions";
 import MyProfile from "../pages/Dashboard/MyProfile/MyProfile";
 import UserManagment from "../pages/Dashboard/UserManagment/UserManagment";
 import TuitionManagement from "../pages/Dashboard/TuitionManagement/TuitionManagement";
+import TeacherApplications from "../pages/Dashboard/TeacherApplications/TeacherApplications";
+import TuitionDetails from "../pages/Tuition/TuitionDetails";
 
 export const router = createBrowserRouter([
   {
@@ -77,6 +78,10 @@ export const router = createBrowserRouter([
       {
         path: "tuition-management",
         element: <TuitionManagement></TuitionManagement>,
+      },
+      {
+        path: "teacher-applications",
+        element: <TeacherApplications></TeacherApplications>,
       },
     ],
   },
