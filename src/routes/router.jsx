@@ -19,6 +19,8 @@ import TuitionDetails from "../pages/Tuition/TuitionDetails";
 import AppliedTutors from "../pages/Dashboard/AppliedTutors/AppliedTutors";
 import PaymentSuccess from "../pages/Dashboard/PaymentSuccess/PaymentSuccess";
 import PaymentHistory from "../pages/Dashboard/PaymentHistory/PaymentHistory";
+import AppliedStudents from "../pages/Dashboard/AppliedStudents/AppliedStudents";
+import Checkout from "../pages/Dashboard/Checkout/Checkout";
 
 export const router = createBrowserRouter([
   {
@@ -79,12 +81,20 @@ export const router = createBrowserRouter([
         element: <AppliedTutors></AppliedTutors>,
       },
       {
+        path: "checkout",
+        element: <Checkout></Checkout>,
+      },
+      {
         path: "teacher-request",
         element: <TeacherRequest></TeacherRequest>,
       },
       {
         path: "my-profile",
         element: <MyProfile></MyProfile>,
+      },
+      {
+        path: "applied-students",
+        element: <AppliedStudents></AppliedStudents>,
       },
       {
         path: "user-management",

@@ -11,6 +11,8 @@ import {
   MdPersonSearch,
   MdHowToReg,
   MdHistory,
+  MdGroup,
+  MdPayment,
 } from "react-icons/md";
 const DashboardLayout = () => {
   return (
@@ -82,6 +84,13 @@ const DashboardLayout = () => {
                 Applied Tutors
               </NavLink>
             </li>
+            {/* Checkout */}
+            <li>
+              <NavLink to="/dashboard/checkout" end>
+                <MdPayment size={25} />
+                Checkout
+              </NavLink>
+            </li>
 
             {/* Payment History */}
             <li>
@@ -128,6 +137,14 @@ const DashboardLayout = () => {
               <NavLink to="/dashboard/teacher-applications" end>
                 <MdPersonSearch size={25} />
                 Teacher Applications
+              </NavLink>
+            </li>
+
+            {/* Applied Students */}
+            <li>
+              <NavLink to="/dashboard/applied-students" end>
+                <MdGroup size={25} />
+                Applied Students
               </NavLink>
             </li>
 

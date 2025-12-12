@@ -1,229 +1,270 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   FaUserGraduate,
-  FaCalendarAlt,
-  FaClock,
   FaMoneyBillWave,
-  FaMapMarkerAlt,
-  FaBookOpen,
-  FaGlobe,
-  FaLanguage,
-  FaChalkboardTeacher,
-  FaCheckCircle,
   FaStar,
   FaEnvelope,
-  FaHandshake,
-  FaGraduationCap,
-  FaDesktop,
-  FaPencilAlt,
   FaCalendarPlus,
 } from "react-icons/fa";
 import { useParams } from "react-router";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
+import Swal from "sweetalert2";
+import useAuth from "../../hooks/useAuth";
+import ApplyModal from "../../components/Modal/ApplyModal";
+
+const classSubjectsMap = {
+  "Class 1": ["Bangla", "English", "Mathematics"],
+  "Class 2": ["Bangla", "English", "Mathematics"],
+  "Class 3": [
+    "Bangla",
+    "English",
+    "Mathematics",
+    "General Science",
+    "Social Science",
+  ],
+  "Class 4": [
+    "Bangla",
+    "English",
+    "Mathematics",
+    "General Science",
+    "Social Science",
+  ],
+  "Class 5": [
+    "Bangla",
+    "English",
+    "Mathematics",
+    "General Science",
+    "Social Science",
+  ],
+  "Class 6": [
+    "Bangla",
+    "English",
+    "Mathematics",
+    "General Science",
+    "History",
+    "Geography",
+    "ICT",
+  ],
+  "Class 7": [
+    "Bangla",
+    "English",
+    "Mathematics",
+    "General Science",
+    "History",
+    "Geography",
+    "ICT",
+  ],
+  "Class 8": [
+    "Bangla",
+    "English",
+    "Mathematics",
+    "Physics",
+    "Chemistry",
+    "Biology",
+    "History",
+    "Geography",
+    "ICT",
+  ],
+  "Class 9": [
+    "Bangla",
+    "English",
+    "Mathematics",
+    "Physics",
+    "Chemistry",
+    "Biology",
+    "Higher Math",
+    "ICT",
+  ],
+  "Class 10": [
+    "Bangla",
+    "English",
+    "Mathematics",
+    "Physics",
+    "Chemistry",
+    "Biology",
+    "Higher Math",
+    "ICT",
+  ],
+};
 
 const TeacherProfileDetails = () => {
-  const { id } = useParams(); // URL থেকে পোস্টের ID নিন
-  // const navigate = useNavigate(); // প্রোগ্রাম্যাটিক্যালি নেভিগেট করার জন্য
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedClassLevel, setSelectedClassLevel] = useState("");
+  const availableSubjects = classSubjectsMap[selectedClassLevel] || [];
 
+  const { id } = useParams();
   const axiosSecure = useAxiosSecure();
+  const { user } = useAuth();
 
   const { data: teacherData = {} } = useQuery({
-    queryKey: ["teacherData"],
+    queryKey: ["teacherData", id],
     queryFn: async () => {
-      const result = await axiosSecure(
-        `${import.meta.env.VITE_API_URL}/teacher-profile/${id}`
-      );
+      const result = await axiosSecure(`/teacher-profile/${id}`);
       return result.data;
     },
   });
 
-  // const teacherData = {
-  //   teacherName: "Abdul Karim",
-  //   teacherEmail: "abdul.karim01@gmail.com",
-  //   experienceYears: 5,
-  //   qualification: "MSc in Mathematics",
-  //   medium: ["Bangla"],
-  //   subjects: ["Mathematics"],
-  //   classLevels: ["Junior School", "Secondary School", "O-Level", "HSC"],
-  //   mode: "Both",
-  //   teachingArea: "Khulna",
-  //   preferredTime: "Evening (6 PM – 9 PM)",
-  //   availableDaysPerWeek: 4,
-  //   salaryRange: "8000",
-  //   salaryNegotiable: true,
-  //   shortDescription: "Experienced math tutor for junior and secondary students.",
-  //   longDescription: "I have been teaching mathematics for 5 years with excellent student feedback and a proven track record of helping students achieve their academic goals. My teaching style is interactive and focused on building a strong conceptual understanding. I am passionate about making mathematics enjoyable and accessible to all students.",
-  //   languages: ["Bengali", "English"],
-  //   profilePhoto: "https://i.ibb.co/HTXKL1T8/sample-profile.jpg",
-  //   status: "pending",
-  //   createdAt: "2025-12-09T10:12:05.671Z"
-  // };
+  /** -------------------------
+   * ✅ Handle Apply Submit
+   * ------------------------- */
+  const handleStudentApply = async (formValues) => {
+    const appliedData = {
+      studentName: user?.displayName,
+      studentEmail: user?.email,
+      tutorId: teacherData._id,
+      tutorEmail: teacherData.teacherEmail,
+      tutorName: teacherData.teacherName,
+
+      // modal data
+      classLevel: formValues.classLevel,
+      subject: formValues.subject,
+      budget: formValues.budget,
+
+      expectedSalary: teacherData.salaryRange,
+      qualification: teacherData.qualification,
+      experienceYears: teacherData.experienceYears,
+    };
+
+    try {
+      const res = await axiosSecure.post("/apply-student", appliedData);
+
+      if (res.data.insertedId) {
+        Swal.fire(
+          "Success!",
+          "Your application has been submitted.",
+          "success"
+        );
+      } else if (res.data.message === "Already applied!") {
+        Swal.fire("Already Applied", "You have applied before.", "warning");
+      }
+    } catch (error) {
+      if (error.response?.data?.message === "Already applied!") {
+        Swal.fire("Already Applied", "You have already applied.", "warning");
+      } else {
+        Swal.fire("Error", "Something went wrong.", "error");
+      }
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-6 md:p-10">
-      <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden border border-blue-200">
+    <div className="min-h-screen bg-gray-100 p-6 md:p-10">
+      <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-md border border-gray-200">
         {/* Header Section */}
-        <div className="relative bg-gradient-to-r from-blue-600 to-purple-600 p-8 text-white flex flex-col items-center justify-center">
+        <div className="p-10 text-center border-b bg-white">
           <img
             src={teacherData.profilePhoto}
             alt={teacherData.teacherName}
-            className="w-32 h-32 rounded-full border-4 border-white shadow-md mb-4 object-cover"
+            className="w-36 h-36 rounded-full mx-auto border-4 border-gray-100 shadow-sm object-cover"
           />
-          <h1 className="text-4xl font-extrabold mb-2 tracking-wide">
-            {teacherData.teacherName}
+
+          <h1 className="text-3xl font-bold mt-4 text-gray-800">
+            {teacherData.teacherName || "N/A"}
           </h1>
-          <p className="text-xl font-light opacity-90">
-            {teacherData.shortDescription}
+
+          <p className="text-gray-500 mt-2 max-w-xl mx-auto">
+            {teacherData.longDescription?.substring(0, 60) + "..."}
           </p>
-          <div className="absolute top-4 right-4 flex items-center bg-white text-blue-600 px-3 py-1 rounded-full text-sm font-semibold shadow">
-            <FaCheckCircle className="mr-1 text-green-500" />
-            {teacherData.status === "pending" ? "Pending Approval" : "Active"}
+
+          <div className="flex gap-3 justify-center items-center">
+            <div
+              className={`mt-6 inline-block px-4 py-2 rounded-full ${
+                teacherData.status === "pending"
+                  ? "bg-yellow-100 text-yellow-700"
+                  : "bg-green-100 text-green-700"
+              }`}
+            >
+              {teacherData.status === "pending" ? "Pending Approval" : "Active"}
+            </div>
+
+            <button
+              onClick={() => setIsOpen(true)}
+              className="mt-6 w-full md:w-auto px-6 py-2 bg-linear-to-r from-blue-600 to-indigo-600 
+                       text-white rounded-lg shadow-md hover:shadow-lg 
+                       hover:brightness-110 transition duration-200"
+            >
+              Send Request
+            </button>
           </div>
         </div>
 
-        {/* Main Content Grid */}
-        <div className="p-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Column: Contact & Basic Info */}
-          <div className="lg:col-span-1 space-y-6">
-            <div className="bg-blue-50 p-6 rounded-lg shadow-sm border border-blue-100">
-              <h2 className="text-2xl font-semibold text-blue-700 mb-4 flex items-center">
-                <FaUserGraduate className="mr-3 text-blue-500" />
+        {/* Body Section */}
+        <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Left Column */}
+          <div className="space-y-6">
+            <div className="bg-gray-50 p-6 rounded-lg border space-y-3">
+              <h2 className="text-xl font-semibold text-gray-700 mb-2 border-b pb-2">
                 Teacher Info
               </h2>
-              <p className="flex items-center text-gray-700 mb-2">
-                <FaEnvelope className="mr-3 text-blue-400" />{" "}
-                <a
-                  href={`mailto:${teacherData.teacherEmail}`}
-                  className="text-blue-600 hover:underline"
-                >
-                  {teacherData.teacherEmail}
-                </a>
-              </p>
-              <p className="flex items-center text-gray-700 mb-2">
-                <FaStar className="mr-3 text-yellow-500" /> Experience:{" "}
-                <span className="font-medium ml-1">
-                  {teacherData.experienceYears} Years
-                </span>
-              </p>
-              <p className="flex items-center text-gray-700 mb-2">
-                <FaUserGraduate className="mr-3 text-green-500" />{" "}
-                Qualification:{" "}
-                <span className="font-medium ml-1">
-                  {teacherData.qualification}
-                </span>
-              </p>
-              <p className="flex items-center text-gray-700 mb-2">
-                <FaLanguage className="mr-3 text-purple-500" /> Languages:{" "}
-                <span className="font-medium ml-1">
-                  {teacherData.languages?.join(", ")}
-                </span>
-              </p>
-              <p className="flex items-center text-gray-700">
-                <FaGlobe className="mr-3 text-teal-500" /> Medium:{" "}
-                <span className="font-medium ml-1">
-                  {teacherData.medium?.join(", ")}
-                </span>
-              </p>
-            </div>
 
-            <div className="bg-purple-50 p-6 rounded-lg shadow-sm border border-purple-100">
-              <h2 className="text-2xl font-semibold text-purple-700 mb-4 flex items-center">
-                <FaMoneyBillWave className="mr-3 text-purple-500" />
-                Salary & Availability
-              </h2>
-              <p className="flex items-center text-gray-700 mb-2">
-                <FaMoneyBillWave className="mr-3 text-green-500" /> Salary
-                Range:{" "}
-                <span className="font-medium ml-1">
-                  BDT {teacherData.salaryRange}
-                </span>
+              <p className="flex items-center text-gray-700">
+                <FaEnvelope className="mr-3 text-gray-500" />
+                {teacherData.teacherEmail || "N/A"}
               </p>
-              <p className="flex items-center text-gray-700 mb-2">
-                <FaHandshake className="mr-3 text-indigo-500" /> Salary
-                Negotiable:
+
+              <p className="flex items-center text-gray-700">
+                <FaStar className="mr-3 text-yellow-500" />
+                Experience: {teacherData.experienceYears || 0} years
+              </p>
+
+              <p className="flex items-center text-gray-700">
+                <FaUserGraduate className="mr-3 text-blue-500" />
+                Qualification: {teacherData.qualification || "N/A"}
+              </p>
+
+              <p className="flex items-center text-gray-700">
+                <FaMoneyBillWave className="mr-3 text-green-600" />
+                Salary: BDT {teacherData.salaryRange || "N/A"}{" "}
                 <span
-                  className={`font-medium ml-1 ${
+                  className={`ml-2 font-medium ${
                     teacherData.salaryNegotiable
                       ? "text-green-600"
                       : "text-red-600"
                   }`}
                 >
-                  {teacherData.salaryNegotiable ? "Yes" : "No"}
-                </span>
-              </p>
-              <p className="flex items-center text-gray-700 mb-2">
-                <FaCalendarAlt className="mr-3 text-yellow-500" /> Available
-                Days/Week:{" "}
-                <span className="font-medium ml-1">
-                  {teacherData.availableDaysPerWeek}
-                </span>
-              </p>
-              <p className="flex items-center text-gray-700">
-                <FaClock className="mr-3 text-orange-500" /> Preferred Time:{" "}
-                <span className="font-medium ml-1">
-                  {teacherData.preferredTime}
+                  ({teacherData.salaryNegotiable ? "Negotiable" : "Fixed"})
                 </span>
               </p>
             </div>
           </div>
 
-          {/* Right Column: Details & Description */}
-          <div className="lg:col-span-2 space-y-6">
-            <div className="bg-green-50 p-6 rounded-lg shadow-sm border border-green-100">
-              <h2 className="text-2xl font-semibold text-green-700 mb-4 flex items-center">
-                <FaBookOpen className="mr-3 text-green-500" />
-                Teaching Details
-              </h2>
-              <p className="flex items-center text-gray-700 mb-2">
-                <FaChalkboardTeacher className="mr-3 text-blue-500" /> Subjects:{" "}
-                <span className="font-medium ml-1">
-                  {teacherData.subjects?.join(", ")}
-                </span>
-              </p>
-              <p className="flex items-center text-gray-700 mb-2">
-                <FaGraduationCap className="mr-3 text-purple-500" /> Class
-                Levels:{" "}
-                <span className="font-medium ml-1">
-                  {teacherData.classLevels?.join(", ")}
-                </span>
-              </p>
-              <p className="flex items-center text-gray-700 mb-2">
-                <FaDesktop className="mr-3 text-red-500" /> Mode:{" "}
-                <span className="font-medium ml-1">{teacherData.mode}</span>
-              </p>
-              <p className="flex items-center text-gray-700">
-                <FaMapMarkerAlt className="mr-3 text-teal-500" /> Teaching Area:{" "}
-                <span className="font-medium ml-1">
-                  {teacherData.teachingArea}
-                </span>
-              </p>
-            </div>
-
-            <div className="bg-yellow-50 p-6 rounded-lg shadow-sm border border-yellow-100">
-              <h2 className="text-2xl font-semibold text-yellow-700 mb-4 flex items-center">
-                <FaPencilAlt className="mr-3 text-yellow-500" />
+          {/* Right Column */}
+          <div className="space-y-6">
+            <div className="bg-gray-50 p-6 rounded-lg border space-y-3">
+              <h2 className="text-xl font-semibold text-gray-700 mb-2 border-b pb-2">
                 About Me
               </h2>
-              <p className="text-gray-800 leading-relaxed">
-                {teacherData.longDescription}
+              <p className="text-gray-700 leading-relaxed wrap-break-word">
+                {teacherData.longDescription || "No description provided."}
               </p>
             </div>
 
-            <div className="bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-100 text-sm text-gray-600">
+            <div className="bg-gray-50 p-6 rounded-lg border text-gray-600 text-sm">
               <p className="flex items-center">
-                <FaCalendarPlus className="mr-2 text-gray-500" /> Profile
-                Created On:{" "}
-                {new Date(teacherData.createdAt).toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
+                <FaCalendarPlus className="mr-2" />
+                Profile Created On:{" "}
+                {teacherData.createdAt
+                  ? new Date(teacherData.createdAt).toLocaleDateString(
+                      "en-US",
+                      { year: "numeric", month: "long", day: "numeric" }
+                    )
+                  : "N/A"}
               </p>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Apply Modal */}
+      <ApplyModal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        classSubjectsMap={classSubjectsMap}
+        selectedClassLevel={selectedClassLevel}
+        setSelectedClassLevel={setSelectedClassLevel}
+        availableSubjects={availableSubjects}
+        onSubmitData={handleStudentApply}
+      />
     </div>
   );
 };
