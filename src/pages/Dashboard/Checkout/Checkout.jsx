@@ -24,18 +24,27 @@ const Checkout = () => {
     },
   });
 
-  const handlePayment = async (id) => {
-    try {
-      const response = await axiosSecure.patch(`/apply-student/accept/${id}`);
-      if (response.data.success) {
-        refetch();
-        alert(" Accepted successfully!");
-        // চাইলে এখানে state refresh বা query invalidate করতে পারেন
-      }
-    } catch (error) {
-      console.error("Accept Error:", error);
-      alert("Failed to accept post");
-    }
+  const handlePayment = async (data) => {
+    const paymentInfo = {
+      paymentType: "applyStudentPayment", //⭐ খুব গুরুত্বপূর্ণ
+      applyId: data._id, //⭐ applied-students এর _id
+      studentEmail: user?.email,
+      tutorEmail: data.tutorEmail,
+      subject: data.subject,
+      price: data.budget,
+      expectedSalary: data.expectedSalary,
+      qualification: data.qualification,
+      studentName: user?.displayName,
+      image: user?.photoURL,
+      classLevel: data.classLevel,
+    };
+
+    const { data: res } = await axiosSecure.post(
+      "/create-checkout-session",
+      paymentInfo
+    );
+
+    window.location.assign(res.url);
   };
 
   console.log(StudentData);

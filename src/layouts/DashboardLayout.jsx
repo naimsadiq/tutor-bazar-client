@@ -13,6 +13,7 @@ import {
   MdHistory,
   MdGroup,
   MdPayment,
+  MdMonetizationOn,
 } from "react-icons/md";
 const DashboardLayout = () => {
   return (
@@ -145,6 +146,14 @@ const DashboardLayout = () => {
               <NavLink to="/dashboard/applied-students" end>
                 <MdGroup size={25} />
                 Applied Students
+              </NavLink>
+            </li>
+
+            {/* teacher Earnings */}
+            <li>
+              <NavLink to="/dashboard/earnings" end>
+                <MdMonetizationOn size={25} />
+                Earnings
               </NavLink>
             </li>
 

@@ -26,6 +26,7 @@ const AppliedTutors = () => {
 
   const handlePayment = async (tutor) => {
     const paymentInfo = {
+      paymentType: "tuitionPayment", // ⭐ FIX HERE
       tuitionId: tutor.tuitionId,
       studentEmail: user?.email,
       tutorEmail: tutor.tutorEmail,
@@ -60,7 +61,7 @@ const AppliedTutors = () => {
               <th>Subject</th>
               <th>Tutor Email</th>
               <th>Tutor Details</th>
-              <th>Status</th>
+              <th>Payment</th>
               <th>Action</th>
             </tr>
           </thead>

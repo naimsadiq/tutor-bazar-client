@@ -23,7 +23,18 @@ const TuitionDetails = () => {
     },
   });
 
-  const handleApply = (post) => {
+  const handleApply = async (post) => {
+    // 🔍 Step 1: teacher profile check
+    const res = await axiosSecure.get(
+      `/teacher-profile-exists?email=${user.email}`
+    );
+
+    // ❌ profile নাই
+    if (!res.data.exists) {
+      // toast.error("আগে আপনার শিক্ষক প্রোফাইল তৈরি করুন");
+      return navigate("/dashboard/teacher-request");
+    }
+
     Swal.fire({
       title: "Apply for Tuition?",
       text: "Do you want to submit your application now?",

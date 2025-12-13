@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   FaUser,
   FaEnvelope,
@@ -10,10 +10,12 @@ import {
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../hooks/useAuth";
+import { useNavigate } from "react-router";
 
 const MyProfile = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
+  const navigate = useNavigate();
 
   const { data: teacherData = [], isLoading } = useQuery({
     queryKey: ["teacherData", user],
@@ -24,6 +26,12 @@ const MyProfile = () => {
       return res.data;
     },
   });
+
+  useEffect(() => {
+    if (!isLoading && teacherData.length === 0) {
+      navigate("/dashboard/teacher-request");
+    }
+  }, [teacherData, isLoading, navigate]);
 
   // console.log(teacher);
   // Provided teacher data
