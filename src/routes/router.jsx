@@ -22,6 +22,8 @@ import PaymentHistory from "../pages/Dashboard/PaymentHistory/PaymentHistory";
 import AppliedStudents from "../pages/Dashboard/AppliedStudents/AppliedStudents";
 import Checkout from "../pages/Dashboard/Checkout/Checkout";
 import TeacherEarnings from "../pages/Dashboard/TeacherEarnings/TeacherEarnings";
+import About from "../pages/About/About";
+import Contact from "../pages/Contact/Contact";
 
 export const router = createBrowserRouter([
   {
@@ -48,6 +50,8 @@ export const router = createBrowserRouter([
         path: "/teacher-profile/:id",
         Component: TeacherProfileDetails,
       },
+      { path: "/about", element: <About /> },
+      { path: "/contact", element: <Contact /> },
       { path: "/signup", element: <SignUp /> },
       { path: "/signin", element: <SignIn /> },
       {

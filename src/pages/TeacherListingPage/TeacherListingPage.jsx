@@ -17,7 +17,7 @@ const TeacherListingPage = () => {
   });
 
   return (
-    <div className="max-w-9/12 mx-auto min-h-screen bg-gray-100 text-gray-900 transition-colors duration-300">
+    <div className="max-w-9/12 mx-auto min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
       {/* Navbar (Placeholder - You mentioned you have one) */}
 
       <div className="container mx-auto p-4 py-8">
