@@ -1,16 +1,74 @@
-# React + Vite
+# 🎓 Tuition Management System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[🌐 Live Site](YOUR_LIVE_SITE_URL_HERE)
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 📝 Project Overview
 
-## React Compiler
+The **Tuition Management System** is a full-featured platform for students, tutors, and admins to manage tuition activities:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Post and browse tuition requests
+- Tutor applications and approvals
+- Payment tracking and financial reports
+- Student–Tutor communication
 
-## Expanding the ESLint configuration
+**Purpose:**  
+To solve real problems of finding qualified tutors and verified tuition while providing smooth digital workflows.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## ✨ Features
+
+| Module                  | Features                                                                                                                                                  |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Authentication**      | Register as Student/Tutor, Email & Password login, Google login, JWT-based role verification, Protected routes                                            |
+| **Home Page**           | Hero section, Latest tuition posts & tutors (dynamic), Framer Motion animations, How it works section, Why Choose Us section                              |
+| **Student Dashboard**   | Create/Update/Delete tuition posts, View applied tutors, Approve/Reject tutor applications, Stripe payment integration, Payment history, Profile settings |
+| **Tutor Dashboard**     | Apply for tuitions, Track application status, View ongoing tuitions, Revenue & transaction history, Profile management                                    |
+| **Admin Dashboard**     | User management (view/update/delete/change roles), Tuition management (approve/reject posts), Reports & analytics, Charts & graphs                        |
+| **Additional Features** | Mobile responsive, Sticky Navbar & Footer, Social media links, Full-screen loading spinner, 404 error page                                                |
+| **Challenge Features**  | Search & Sort tuitions, Pagination, Advanced filtering (class, subject, location), JWT token verification for role & access                               |
+
+---
+
+## 🛠️ Technology Stack
+
+### Client
+
+- **React**
+- **React Router**
+- **TailwindCSS & DaisyUI**
+- **Axios**
+- **Framer Motion**
+- **Firebase**
+- **React Icons**
+- **Stripe React SDK**
+
+### Server
+
+- **Node.js & Express**
+- **MongoDB (Mongoose)**
+- **JSON Web Token (JWT)**
+- **Stripe API**
+- **dotenv**
+
+---
+
+## 🔑 Environment Variables
+
+Create a `.env` file and add:
+
+```env
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret_key
+FIREBASE_API_KEY=your_firebase_api_key
+STRIPE_SECRET_KEY=your_stripe_secret_key
+```
+
+## 🧑‍💻 Admin Credentials
+
+> 🔐 **Use the following admin account to explore admin features**
+
+- 📧 **Email:** `admin@gmail.com`
+- 🔑 **Password:** `Admin123#`
