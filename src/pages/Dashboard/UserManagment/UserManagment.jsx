@@ -3,6 +3,7 @@ import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import UserDataRow from "../../../components/UserDataRow/UserDataRow";
+import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
 
 const UserManagement = () => {
   const { user } = useAuth();
@@ -19,7 +20,9 @@ const UserManagement = () => {
     },
   });
 
-  // console.log(users);
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
   return (
     <>
       <div className="container mx-auto px-4 sm:px-8">

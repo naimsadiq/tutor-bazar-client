@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
 import { IoBagCheckOutline } from "react-icons/io5";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
 const PaymentSuccess = () => {
   const [searchParams] = useSearchParams();
   const axiosSecure = useAxiosSecure();
@@ -29,11 +30,7 @@ const PaymentSuccess = () => {
   }, [sessionId, axiosSecure]);
 
   if (loading) {
-    return (
-      <div className="h-[60vh] flex justify-center items-center">
-        <span className="loading loading-spinner loading-lg"></span>
-      </div>
-    );
+    return <LoadingSpinner></LoadingSpinner>;
   }
 
   return (

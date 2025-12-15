@@ -7,7 +7,7 @@ import WhyChooseUs from "./WhyChooseUs";
 
 const Home = () => {
   return (
-    <div>
+    <div className="pt-[70px]">
       <Banner></Banner>
       <main>
         {/* latest tuition post  */}

@@ -27,7 +27,7 @@ const TuitorDetailsModal = ({ isOpen, closeModal, email }) => {
 
   const teacher = Array.isArray(teacherData) ? teacherData[0] : teacherData;
 
-  if (!isOpen) return null; // Modal closed
+  if (!isOpen) return null;
   if (isLoading) return <p className="p-4">Loading tutor details...</p>;
   if (!teacher) return <p className="p-4">No tutor details found.</p>;
 

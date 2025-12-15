@@ -18,17 +18,18 @@ import {
   FaPhoneAlt,
   FaInfoCircle,
 } from "react-icons/fa";
+import LoadingSpinner from "../../components/Shared/LoadingSpinner";
 
 const TuitionDetails = () => {
-  const { id } = useParams(); // Get post ID from URL
-  const navigate = useNavigate(); // For programmatic navigation
+  const { id } = useParams(); 
+  const navigate = useNavigate(); 
 
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
 
   // --- Data Fetching ---
   const { data: post = {}, isLoading } = useQuery({
-    queryKey: ["post", id], // Include ID in query key for unique cache
+    queryKey: ["post", id], 
     queryFn: async () => {
       // Use proper URL concatenation
       const result = await axiosSecure(
@@ -51,13 +52,11 @@ const TuitionDetails = () => {
       return;
     }
 
-    // 🔍 Step 1: Check teacher profile existence
     try {
       const res = await axiosSecure.get(
         `/teacher-profile-exists?email=${user.email}`
       );
 
-      // ❌ Profile does not exist
       if (!res.data.exists) {
         Swal.fire({
           title: "Teacher Profile Required",
@@ -83,7 +82,7 @@ const TuitionDetails = () => {
       return;
     }
 
-    // ✅ Profile exists, proceed to confirmation
+    // Profile exists, proceed to confirmation
     Swal.fire({
       title: "Apply for Tuition?",
       text: "Do you want to submit your application now?",
@@ -99,7 +98,7 @@ const TuitionDetails = () => {
           subject: post.subject,
           tuitionId: post._id,
           tutorEmail: user.email,
-          expectedSalary: post.budget, // Assuming post.budget is the salary from the previous card component
+          expectedSalary: post.budget, 
           classLevel: post.classLevel,
         };
 
@@ -107,7 +106,6 @@ const TuitionDetails = () => {
         axiosSecure
           .post("/apply-tutor", appliedTutorsData)
           .then((res) => {
-            // Success case (200 status)
             if (res.data.insertedId) {
               Swal.fire({
                 title: "Application Submitted!",
@@ -145,12 +143,7 @@ const TuitionDetails = () => {
 
   // --- Loading State ---
   if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-        <FaInfoCircle className="animate-spin text-3xl text-indigo-600 mr-3" />
-        <p className="text-xl font-medium">Loading tuition details...</p>
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   // Handle case where post is not found or empty

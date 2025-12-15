@@ -28,6 +28,8 @@ import AdminRoute from "./AdminRoute";
 import PrivateRoute from "./PrivateRoute";
 import TeacherRoute from "./TeacherRoute";
 import StudnetRoute from "./StudentRoute";
+import NotFound from "../pages/NotFound/NotFound";
+import UpdateProfile from "../pages/Dashboard/MyProfile/UpdateProfile";
 
 export const router = createBrowserRouter([
   {
@@ -148,6 +150,16 @@ export const router = createBrowserRouter([
         ),
       },
       {
+        path: "update-profile",
+        element: (
+          <PrivateRoute>
+            <TeacherRoute>
+              <UpdateProfile></UpdateProfile>
+            </TeacherRoute>
+          </PrivateRoute>
+        ),
+      },
+      {
         path: "applied-students",
         element: (
           <PrivateRoute>
@@ -198,5 +210,9 @@ export const router = createBrowserRouter([
         ),
       },
     ],
+  },
+  {
+    path: "*",
+    Component: NotFound,
   },
 ]);

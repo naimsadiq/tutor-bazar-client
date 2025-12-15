@@ -19,7 +19,6 @@ const DashboardHome = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
 
-  // User data from props or context (for demo, using static data)
 
   const { data: userData = {}, refetch } = useQuery({
     queryKey: ["user", user?.email],
@@ -30,12 +29,9 @@ const DashboardHome = () => {
       const res = await axiosSecure.get(`/user-profile?email=${user.email}`);
       return res.data;
 
-      // Option 2: Using params (if you use /users/:email endpoint)
-      // const res = await axiosSecure.get(`/users/${user.email}`);
-      // return res.data;
     },
-    enabled: !!user?.email, // Only run query if user exists
-    retry: 2, // Retry failed requests 2 times
+    enabled: !!user?.email, 
+    retry: 2, 
   });
 
   const {

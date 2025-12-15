@@ -17,8 +17,25 @@ import {
   MdSettings,
 } from "react-icons/md";
 import useRole from "../hooks/useRole";
+
 const DashboardLayout = () => {
   const { role } = useRole();
+
+  // NavLink 
+  const getNavLinkClass = ({ isActive }) => {
+    // DaisyUI/Tailwind 
+    const baseClasses =
+      "flex items-center p-3 rounded-lg transition-colors dark:text-white duration-200";
+
+    const hoverClass = "hover:bg-base-200";
+
+    if (isActive) {
+      return `${baseClasses} bg-blue-100 text-blue-700 font-semibold shadow-inner`;
+    } else {
+      return `${baseClasses} text-gray-700 ${hoverClass}`;
+    }
+  };
+
   return (
     <div className="drawer max-w-7xl mx-auto lg:drawer-open w-full min-h-screen bg-base-200">
       {/* Drawer Toggle */}
@@ -64,12 +81,15 @@ const DashboardLayout = () => {
             </Link>
           </div>
 
-          <ul className="menu p-4 w-full flex-1">
+          <ul className="menu p-4 w-full flex-1 space-y-2">
             {role === "student" && (
               <>
                 {/* tuition requst */}
                 <li>
-                  <NavLink to="/dashboard/tutor-request">
+                  <NavLink
+                    to="/dashboard/tutor-request"
+                    className={getNavLinkClass}
+                  >
                     <MdPostAdd size={25} />
                     Post Tuition
                   </NavLink>
@@ -77,7 +97,11 @@ const DashboardLayout = () => {
 
                 {/* my tuition */}
                 <li>
-                  <NavLink to="/dashboard/my-tuitions" end>
+                  <NavLink
+                    to="/dashboard/my-tuitions"
+                    end
+                    className={getNavLinkClass}
+                  >
                     <MdListAlt size={25} />
                     My Tuitions
                   </NavLink>
@@ -85,14 +109,22 @@ const DashboardLayout = () => {
 
                 {/* Applied Tutors */}
                 <li>
-                  <NavLink to="/dashboard/applied-tutors" end>
+                  <NavLink
+                    to="/dashboard/applied-tutors"
+                    end
+                    className={getNavLinkClass}
+                  >
                     <MdHowToReg size={25} />
                     Applied Tutors
                   </NavLink>
                 </li>
                 {/* Checkout */}
                 <li>
-                  <NavLink to="/dashboard/checkout" end>
+                  <NavLink
+                    to="/dashboard/checkout"
+                    end
+                    className={getNavLinkClass}
+                  >
                     <MdPayment size={25} />
                     Checkout
                   </NavLink>
@@ -100,19 +132,26 @@ const DashboardLayout = () => {
 
                 {/* Payment History */}
                 <li>
-                  <NavLink to="/dashboard/payment-history" end>
+                  <NavLink
+                    to="/dashboard/payment-history"
+                    end
+                    className={getNavLinkClass}
+                  >
                     <MdHistory size={25} />
                     Payment History
                   </NavLink>
                 </li>
               </>
             )}
-
             {role === "teacher" && (
               <>
                 {/* //teacher-request */}
                 <li>
-                  <NavLink to="/dashboard/teacher-request" end>
+                  <NavLink
+                    to="/dashboard/teacher-request"
+                    end
+                    className={getNavLinkClass}
+                  >
                     <MdPersonAdd size={25} />
                     Create Profile
                   </NavLink>
@@ -120,7 +159,11 @@ const DashboardLayout = () => {
 
                 {/* // My Profile */}
                 <li>
-                  <NavLink to="/dashboard/my-profile" end>
+                  <NavLink
+                    to="/dashboard/my-profile"
+                    end
+                    className={getNavLinkClass}
+                  >
                     <MdManageAccounts size={25} />
                     My Profile
                   </NavLink>
@@ -128,7 +171,11 @@ const DashboardLayout = () => {
 
                 {/* Applied Students */}
                 <li>
-                  <NavLink to="/dashboard/applied-students" end>
+                  <NavLink
+                    to="/dashboard/applied-students"
+                    end
+                    className={getNavLinkClass}
+                  >
                     <MdGroup size={25} />
                     Applied Students
                   </NavLink>
@@ -136,19 +183,26 @@ const DashboardLayout = () => {
 
                 {/* teacher Earnings */}
                 <li>
-                  <NavLink to="/dashboard/earnings" end>
+                  <NavLink
+                    to="/dashboard/earnings"
+                    end
+                    className={getNavLinkClass}
+                  >
                     <MdMonetizationOn size={25} />
                     Earnings
                   </NavLink>
                 </li>
               </>
             )}
-
             {role === "admin" && (
               <>
                 {/* User Management */}
                 <li>
-                  <NavLink to="/dashboard/user-management" end>
+                  <NavLink
+                    to="/dashboard/user-management"
+                    end
+                    className={getNavLinkClass}
+                  >
                     <MdPeople size={25} />
                     User Management
                   </NavLink>
@@ -156,7 +210,11 @@ const DashboardLayout = () => {
 
                 {/* Tuition Posts Management */}
                 <li>
-                  <NavLink to="/dashboard/tuition-management" end>
+                  <NavLink
+                    to="/dashboard/tuition-management"
+                    end
+                    className={getNavLinkClass}
+                  >
                     <MdAssignment size={25} />
                     Tuition Management
                   </NavLink>
@@ -164,17 +222,20 @@ const DashboardLayout = () => {
 
                 {/* Teacher Applications */}
                 <li>
-                  <NavLink to="/dashboard/teacher-applications" end>
+                  <NavLink
+                    to="/dashboard/teacher-applications"
+                    end
+                    className={getNavLinkClass}
+                  >
                     <MdPersonSearch size={25} />
                     Teacher Applications
                   </NavLink>
                 </li>
               </>
             )}
-
             {/* Settings */}
             <li>
-              <NavLink to="/dashboard/">
+              <NavLink to="/dashboard/" end className={getNavLinkClass}>
                 <MdSettings size={25} />
                 Settings
               </NavLink>

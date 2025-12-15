@@ -2,16 +2,15 @@ import React from "react";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
+import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
 
 const AppliedStudents = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
 
-  // Fetch applied tutors
   const {
     data: appliedStudentData = [],
     isLoading,
-    error,
     refetch,
   } = useQuery({
     queryKey: ["appliedStudentData", user?.email],
@@ -29,8 +28,7 @@ const AppliedStudents = () => {
       const response = await axiosSecure.patch(`/apply-student/accept/${id}`);
       if (response.data.success) {
         refetch();
-        alert(" Accepted successfully!");
-        // চাইলে এখানে state refresh বা query invalidate করতে পারেন
+        alert("Accepted successfully!");
       }
     } catch (error) {
       console.error("Accept Error:", error);
@@ -44,48 +42,76 @@ const AppliedStudents = () => {
       if (response.data.success) {
         refetch();
         alert("Post rejected successfully!");
-        // state refresh বা query invalidate করতে পারেন
       }
     } catch (error) {
       console.error("Reject Error:", error);
       alert("Failed to reject post");
     }
   };
-  // console.log(appliedStudentData);
-  return (
-    <div>
-      <h1 className="text-2xl font-semibold mb-6">Applied Tutors</h1>
 
-      <div className="overflow-x-auto">
-        <table className="table table-zebra w-full">
-          <thead>
+  if (isLoading) return <LoadingSpinner />;
+
+  if (!appliedStudentData.length)
+    return (
+      <p className="text-center text-gray-500 dark:text-gray-400 mt-8">
+        No applied students yet.
+      </p>
+    );
+
+  return (
+    <div className="w-full">
+      <h1 className="text-2xl font-semibold mb-6 text-gray-800 dark:text-white">
+        Applied Students
+      </h1>
+
+      {/* ---------- Desktop Table ---------- */}
+      <div className="hidden md:block overflow-x-auto rounded-xl shadow">
+        <table className="min-w-full table-auto border border-gray-300 dark:border-gray-700 rounded-lg overflow-hidden">
+          <thead className="bg-gray-100 dark:bg-gray-800">
             <tr>
-              <th>#</th>
-              <th>Subject</th>
-              <th>Student Email</th>
-              <th>budget</th>
-              <th>Status</th>
-              <th>Action</th>
+              <th className="px-4 py-3 text-left text-gray-700 dark:text-gray-300 font-semibold">
+                #
+              </th>
+              <th className="px-4 py-3 text-left text-gray-700 dark:text-gray-300 font-semibold">
+                Subject
+              </th>
+              <th className="px-4 py-3 text-left text-gray-700 dark:text-gray-300 font-semibold">
+                Student Email
+              </th>
+              <th className="px-4 py-3 text-left text-gray-700 dark:text-gray-300 font-semibold">
+                Budget
+              </th>
+              <th className="px-4 py-3 text-left text-gray-700 dark:text-gray-300 font-semibold">
+                Status
+              </th>
+              <th className="px-4 py-3 text-left text-gray-700 dark:text-gray-300 font-semibold">
+                Action
+              </th>
             </tr>
           </thead>
           <tbody>
             {appliedStudentData.map((data, index) => (
-              <tr key={data._id}>
-                <th>{index + 1}</th>
-                <td>{data.subject}</td>
-                <td>{data.studentEmail}</td>
-                <td>{data.budget}</td>
-                <td>{data.status}</td>
-                <td className="flex gap-3">
+              <tr
+                key={data._id}
+                className="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+              >
+                <td className="px-4 py-3">{index + 1}</td>
+                <td className="px-4 py-3 font-medium">{data.subject}</td>
+                <td className="px-4 py-3 text-sm break-all">
+                  {data.studentEmail}
+                </td>
+                <td className="px-4 py-3">{data.budget}</td>
+                <td className="px-4 py-3">{data.status}</td>
+                <td className="px-4 py-3 flex gap-2">
                   <button
                     onClick={() => handleAccept(data._id)}
-                    className="btn btn-success"
+                    className="btn btn-sm btn-success"
                   >
                     Accept
                   </button>
                   <button
                     onClick={() => handleReject(data._id)}
-                    className="btn btn-error"
+                    className="btn btn-sm btn-error"
                   >
                     Reject
                   </button>
@@ -94,6 +120,57 @@ const AppliedStudents = () => {
             ))}
           </tbody>
         </table>
+      </div>
+
+      {/* ---------- Mobile Cards ---------- */}
+      <div className="md:hidden space-y-4">
+        {appliedStudentData.map((data, index) => (
+          <div
+            key={data._id}
+            className="bg-white dark:bg-gray-800 rounded-xl shadow p-4 space-y-3"
+          >
+            <div className="flex justify-between items-center">
+              <h3 className="font-semibold text-lg text-gray-800 dark:text-white">
+                {data.subject}
+              </h3>
+              <span className="text-sm text-gray-500">#{index + 1}</span>
+            </div>
+
+            <p className="text-sm break-all text-gray-600 dark:text-gray-300">
+              <strong>Student Email:</strong> {data.studentEmail}
+            </p>
+
+            <p className="text-sm">
+              <strong>Budget:</strong> {data.budget}
+            </p>
+
+            <p className="text-sm">
+              <strong>Status:</strong>{" "}
+              <span
+                className={`badge ${
+                  data.status === "accepted" ? "badge-success" : "badge-warning"
+                }`}
+              >
+                {data.status}
+              </span>
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-2 pt-2">
+              <button
+                onClick={() => handleAccept(data._id)}
+                className="btn btn-sm btn-success flex-1"
+              >
+                Accept
+              </button>
+              <button
+                onClick={() => handleReject(data._id)}
+                className="btn btn-sm btn-error flex-1"
+              >
+                Reject
+              </button>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

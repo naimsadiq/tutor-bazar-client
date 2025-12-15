@@ -9,10 +9,10 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 import GoogleWithLogin from "../../components/SocialLogin/googleWithLogin";
 
 const SignUpForm = () => {
-  const { createUser, updateUserProfile, loading } = useAuth();
-  // const navigate = useNavigate();
-  // const location = useLocation();
-  // const from = location.state || "/";
+  const { createUser, updateUserProfile } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state || "/";
   const axiosSecure = useAxiosSecure();
   const {
     register,
@@ -48,7 +48,7 @@ const SignUpForm = () => {
         toast.success("Signup Successful");
       }
 
-      // navigate(from, { replace: true });
+      navigate(from, { replace: true });
     } catch (err) {
       console.log(err);
       toast.error(err?.message || "Something went wrong");

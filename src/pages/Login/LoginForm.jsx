@@ -1,14 +1,16 @@
 import React from "react";
-import { FcGoogle } from "react-icons/fc";
 import { useForm } from "react-hook-form";
 import Logo from "../../components/Shared/Logo/Logo";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import { toast } from "react-hot-toast";
 import GoogleWithLogin from "../../components/SocialLogin/googleWithLogin";
 
 const LoginForm = () => {
   const { signIn } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state || "/";
   const {
     register,
     handleSubmit,
@@ -20,8 +22,8 @@ const LoginForm = () => {
     const { email, password } = data;
     try {
       await signIn(email, password);
+      navigate(from, { replace: true });
       toast.success("Login Successful");
-      // navigate if needed
     } catch (err) {
       console.log(err);
       toast.error(err?.message || "Login failed");
