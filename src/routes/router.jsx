@@ -24,6 +24,10 @@ import Checkout from "../pages/Dashboard/Checkout/Checkout";
 import TeacherEarnings from "../pages/Dashboard/TeacherEarnings/TeacherEarnings";
 import About from "../pages/About/About";
 import Contact from "../pages/Contact/Contact";
+import AdminRoute from "./AdminRoute";
+import PrivateRoute from "./PrivateRoute";
+import TeacherRoute from "./TeacherRoute";
+import StudnetRoute from "./StudentRoute";
 
 export const router = createBrowserRouter([
   {
@@ -67,55 +71,131 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <DashboardHome></DashboardHome>,
+        element: (
+          <PrivateRoute>
+            <DashboardHome></DashboardHome>
+          </PrivateRoute>
+        ),
       },
       {
         path: "tutor-request",
-        element: <TutorRequest></TutorRequest>,
+        element: (
+          <PrivateRoute>
+            <StudnetRoute>
+              <TutorRequest></TutorRequest>
+            </StudnetRoute>
+          </PrivateRoute>
+        ),
       },
       {
         path: "my-tuitions",
-        element: <MyTuitions></MyTuitions>,
+        element: (
+          <PrivateRoute>
+            <StudnetRoute>
+              <MyTuitions></MyTuitions>
+            </StudnetRoute>
+          </PrivateRoute>
+        ),
       },
       {
         path: "payment-history",
-        element: <PaymentHistory></PaymentHistory>,
+        element: (
+          <PrivateRoute>
+            <StudnetRoute>
+              <PaymentHistory></PaymentHistory>
+            </StudnetRoute>
+          </PrivateRoute>
+        ),
       },
       {
         path: "applied-tutors",
-        element: <AppliedTutors></AppliedTutors>,
+        element: (
+          <PrivateRoute>
+            <StudnetRoute>
+              <AppliedTutors></AppliedTutors>
+            </StudnetRoute>
+          </PrivateRoute>
+        ),
       },
       {
         path: "checkout",
-        element: <Checkout></Checkout>,
+        element: (
+          <PrivateRoute>
+            <StudnetRoute>
+              <Checkout></Checkout>
+            </StudnetRoute>
+          </PrivateRoute>
+        ),
       },
       {
         path: "teacher-request",
-        element: <TeacherRequest></TeacherRequest>,
+        element: (
+          <PrivateRoute>
+            <TeacherRoute>
+              <TeacherRequest></TeacherRequest>
+            </TeacherRoute>
+          </PrivateRoute>
+        ),
       },
       {
         path: "my-profile",
-        element: <MyProfile></MyProfile>,
+        element: (
+          <PrivateRoute>
+            <TeacherRoute>
+              <MyProfile></MyProfile>
+            </TeacherRoute>
+          </PrivateRoute>
+        ),
       },
       {
         path: "applied-students",
-        element: <AppliedStudents></AppliedStudents>,
+        element: (
+          <PrivateRoute>
+            <TeacherRoute>
+              <AppliedStudents></AppliedStudents>
+            </TeacherRoute>
+          </PrivateRoute>
+        ),
       },
       {
         path: "earnings",
-        element: <TeacherEarnings></TeacherEarnings>,
+        element: (
+          <PrivateRoute>
+            <TeacherRoute>
+              <TeacherEarnings></TeacherEarnings>
+            </TeacherRoute>
+          </PrivateRoute>
+        ),
       },
       {
         path: "user-management",
-        element: <UserManagment></UserManagment>,
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <UserManagment></UserManagment>
+            </AdminRoute>
+          </PrivateRoute>
+        ),
       },
       {
         path: "tuition-management",
-        element: <TuitionManagement></TuitionManagement>,
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <TuitionManagement></TuitionManagement>
+            </AdminRoute>
+          </PrivateRoute>
+        ),
       },
       {
         path: "teacher-applications",
-        element: <TeacherApplications></TeacherApplications>,
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <TeacherApplications></TeacherApplications>
+            </AdminRoute>
+          </PrivateRoute>
+        ),
       },
     ],
   },

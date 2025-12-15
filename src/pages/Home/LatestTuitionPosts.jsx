@@ -16,8 +16,10 @@ const LatestTuitionPosts = () => {
     },
   });
   return (
-    <div>
-      <h1 className="text-3xl">latest tuition post</h1>
+    <div className="max-w-7xl mx-auto pt-9">
+      <h1 className="text-4xl font-bold text-gray-800 dark:text-white pb-9">
+        Latest Tuition Post
+      </h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
         {latestPosts.map((post) => (

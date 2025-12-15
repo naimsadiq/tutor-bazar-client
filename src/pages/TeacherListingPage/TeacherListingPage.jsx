@@ -20,13 +20,13 @@ const TeacherListingPage = () => {
     <div className="max-w-9/12 mx-auto min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
       {/* Navbar (Placeholder - You mentioned you have one) */}
 
-      <div className="container mx-auto p-4 py-8">
+      <div className="container mx-auto p-4 py-30">
         <h2 className="text-4xl font-extrabold text-center mb-10 text-gray-800 dark:text-white">
-          আমাদের উপলব্ধ শিক্ষকবৃন্দ
+          Our Available Teachers
         </h2>
         {teacherProfiles.length === 0 ? (
           <p className="text-center text-xl text-gray-600 dark:text-gray-400">
-            কোনো শিক্ষক উপলব্ধ নেই।
+            No Teachers Available
           </p>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">

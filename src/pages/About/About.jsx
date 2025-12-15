@@ -2,19 +2,20 @@ import React from "react";
 
 const About = () => {
   return (
-    <div className="bg-base-100 text-base-content">
+    <div className="bg-base-100 text-base-content mt-12">
       {/* Hero Section */}
       <div
         className="hero min-h-[400px]"
         style={{
-          backgroundImage: "url(https://i.ibb.co/vz4vK85/education-bg.jpg)",
+          backgroundImage:
+            "url(https://i.ibb.co.com/MyjyS3rK/pngtree-cartoon-education-training-cram-school-picture-image-917042.png)",
         }}
       >
         <div className="hero-overlay bg-opacity-70"></div>
         <div className="hero-content text-center text-neutral-content">
           <div className="max-w-md">
             <h1 className="mb-5 text-5xl font-bold text-white">
-              About eTuitionBd
+              About Tutol Bazar
             </h1>
             <p className="mb-5 text-gray-200">
               Connecting students with the best tutors. A platform designed to
@@ -29,7 +30,7 @@ const About = () => {
         <div className="flex flex-col lg:flex-row items-center gap-10">
           <div className="lg:w-1/2">
             <img
-              src="https://i.ibb.co/hKV7Yh9/mission.jpg"
+              src="https://i.ibb.co.com/Ldp439K9/i-Stock-1351416161-jpg.webp"
               alt="Our Mission"
               className="rounded-lg shadow-2xl w-full object-cover h-80"
             />

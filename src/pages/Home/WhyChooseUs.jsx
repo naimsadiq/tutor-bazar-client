@@ -9,7 +9,7 @@ import {
 
 const WhyChooseUs = () => {
   return (
-    <section className="py-16 bg-white dark:bg-gray-900">
+    <section className="py-16 max-w-7xl mx-auto">
       <div className="container mx-auto px-4">
         <h2 className="text-4xl font-bold text-center text-gray-800 dark:text-white mb-12">
           Why Choose Us

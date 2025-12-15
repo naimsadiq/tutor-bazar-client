@@ -18,8 +18,10 @@ const LatestTeacherProfile = () => {
 
   // console.log(LatestTeacher);
   return (
-    <div>
-      <h1 className="text-3xl">latest tuition post</h1>
+    <div className="max-w-7xl mx-auto">
+      <h1 className="text-4xl font-bold text-gray-800 dark:text-white pt-15 pb-9">
+        Latest Tuition Post
+      </h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {LatestTeacher.map((teacher) => (

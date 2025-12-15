@@ -2,7 +2,7 @@ import React from "react";
 
 const Contact = () => {
   return (
-    <div className="bg-base-100 text-base-content min-h-screen">
+    <div className="bg-base-100 text-base-content min-h-screen mt-14">
       {/* Header */}
       <div className="bg-primary py-10 text-center text-white">
         <h1 className="text-4xl font-bold">Contact Us</h1>
@@ -79,12 +79,17 @@ const Contact = () => {
                   <label className="label">
                     <span className="label-text">Message</span>
                   </label>
-                  <textarea
+                  {/* <textarea
                     className="textarea textarea-bordered h-32"
                     placeholder="Write your message here..."
                     required
-                  ></textarea>
+                  ></textarea> */}
                 </div>
+                <textarea
+                  className="textarea textarea-bordered h-32"
+                  placeholder="Write your message here..."
+                  required
+                ></textarea>
 
                 <div className="form-control mt-6">
                   <button className="btn btn-primary w-full text-white">

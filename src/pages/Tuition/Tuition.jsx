@@ -30,13 +30,13 @@ const Tuition = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 p-4 sm:p-6 lg:p-8">
-      <div className="container mx-auto">
-        <h1 className="text-3xl sm:text-4xl font-bold text-center mb-8 sm:mb-12 dark:text-white">
-          শিক্ষক প্রয়োজন পোস্টসমূহ
+      <div className="container mx-auto pt-20">
+        <h1 className="text-3xl sm:text-4xl mt-6 font-bold text-center mb-8 sm:mb-12 dark:text-white">
+          Teacher Requirement Posts
         </h1>
 
         {/* Search + Sort */}
-        <div className="flex flex-col sm:flex-row justify-between mb-6 gap-4">
+        <div className="flex flex-col sm:flex-row justify-between mb-9 gap-4">
           <input
             type="text"
             placeholder="Search by subject or class"

@@ -9,19 +9,19 @@ const Home = () => {
   return (
     <div>
       <Banner></Banner>
-      <main className="max-w-7xl mx-auto py-20">
+      <main>
         {/* latest tuition post  */}
-        <section>
+        <section className="bg-gray-50 dark:bg-gray-900">
           <LatestTuitionPosts></LatestTuitionPosts>
         </section>
         {/* latest teacher profile */}
-        <section>
+        <section className="bg-gray-50 dark:bg-gray-900">
           <LatestTeacherProfile></LatestTeacherProfile>
         </section>
-        <section>
+        <section className="bg-gray-50 dark:bg-gray-900">
           <HowItWorks></HowItWorks>
         </section>
-        <section>
+        <section className="bg-white dark:bg-gray-900">
           <WhyChooseUs></WhyChooseUs>
         </section>
       </main>
