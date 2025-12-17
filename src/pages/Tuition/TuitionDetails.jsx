@@ -21,23 +21,22 @@ import {
 import LoadingSpinner from "../../components/Shared/LoadingSpinner";
 
 const TuitionDetails = () => {
-  const { id } = useParams(); 
-  const navigate = useNavigate(); 
+  const { id } = useParams();
+  const navigate = useNavigate();
 
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
 
   // --- Data Fetching ---
   const { data: post = {}, isLoading } = useQuery({
-    queryKey: ["post", id], 
+    queryKey: ["post", id],
     queryFn: async () => {
       // Use proper URL concatenation
-      const result = await axiosSecure(
-        `${import.meta.env.VITE_API_URL}/student-post/${id}`
-      );
+      const result = await axiosSecure(`/student-post/${id}`);
       return result.data;
     },
   });
+
 
   // --- Apply Logic ---
   const handleApply = async (post) => {
@@ -98,7 +97,7 @@ const TuitionDetails = () => {
           subject: post.subject,
           tuitionId: post._id,
           tutorEmail: user.email,
-          expectedSalary: post.budget, 
+          expectedSalary: post.budget,
           classLevel: post.classLevel,
         };
 
@@ -204,13 +203,13 @@ const TuitionDetails = () => {
             <DetailItem
               icon={FaMapMarkerAlt}
               label="Area"
-              value={post.location}
+              value={post.district}
               color="text-red-600"
             />
             <DetailItem
               icon={FaDollarSign}
               label="Salary Range"
-              value={`${post.salaryRange}`}
+              value={`${post.budget}`}
               color="text-green-600"
             />
             <DetailItem
@@ -250,7 +249,7 @@ const TuitionDetails = () => {
             <DetailItem
               icon={FaPhoneAlt}
               label="Contact Info"
-              value={post.contactInfo || "Not specified"}
+              value={post.studentEmail || "Not specified"}
               color="text-cyan-600"
             />
           </div>

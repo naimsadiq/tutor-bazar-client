@@ -10,9 +10,7 @@ const LatestTeacherProfile = () => {
   const { data: LatestTeacher = [], isLoading } = useQuery({
     queryKey: ["LatestTeacher"],
     queryFn: async () => {
-      const result = await axiosSecure(
-        `${import.meta.env.VITE_API_URL}/teacher-profile-latest`
-      );
+      const result = await axiosSecure(`/teacher-profile-latest`);
       return result.data;
     },
   });

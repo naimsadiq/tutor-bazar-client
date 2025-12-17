@@ -91,7 +91,7 @@ const TeacherRequest = () => {
               icon: "success",
             });
 
-            navigate("/teacher-dashboard");
+            navigate("dashboard/my-profile");
           } else {
             Swal.fire({
               title: "Error!",

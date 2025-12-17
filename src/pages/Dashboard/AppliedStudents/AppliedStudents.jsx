@@ -3,6 +3,7 @@ import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
+import { toast } from "react-toastify";
 
 const AppliedStudents = () => {
   const { user } = useAuth();
@@ -28,11 +29,11 @@ const AppliedStudents = () => {
       const response = await axiosSecure.patch(`/apply-student/accept/${id}`);
       if (response.data.success) {
         refetch();
-        alert("Accepted successfully!");
+        toast("Accepted successfully!");
       }
     } catch (error) {
       console.error("Accept Error:", error);
-      alert("Failed to accept post");
+      toast("Failed to accept post");
     }
   };
 
@@ -41,11 +42,11 @@ const AppliedStudents = () => {
       const response = await axiosSecure.patch(`/apply-student/reject/${id}`);
       if (response.data.success) {
         refetch();
-        alert("Post rejected successfully!");
+        toast("Post rejected successfully!");
       }
     } catch (error) {
       console.error("Reject Error:", error);
-      alert("Failed to reject post");
+      toast("Failed to reject post");
     }
   };
 

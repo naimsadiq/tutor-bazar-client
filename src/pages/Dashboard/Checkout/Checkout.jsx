@@ -19,7 +19,7 @@ const Checkout = () => {
     },
   });
 
-  console.log(studentData);
+  // console.log(studentData);
 
   const handlePayment = async (data) => {
     const paymentInfo = {

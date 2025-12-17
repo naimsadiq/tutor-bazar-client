@@ -5,12 +5,13 @@ import {
   FaMapMarkerAlt,
   FaDollarSign,
   FaClock,
-  FaLayerGroup, 
+  FaLayerGroup,
 } from "react-icons/fa";
 import { useNavigate } from "react-router";
 
 const TeacherCard = ({ teacher }) => {
-  const navigate = useNavigate(); 
+  // console.log(teacher);
+  const navigate = useNavigate();
   const {
     teacherName,
     qualification,
