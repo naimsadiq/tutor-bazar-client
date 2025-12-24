@@ -53,8 +53,8 @@ const UpdateUserRoleModal = ({ isOpen, closeModal, user, refetch }) => {
                     name="role"
                     id=""
                   >
-                    <option value="customer">student</option>
-                    <option value="seller">teacher</option>
+                    <option value="student">student</option>
+                    <option value="teacher">teacher</option>
                     <option value="admin">Admin</option>
                   </select>
                 </div>
