@@ -15,6 +15,8 @@ const LatestTuitionPosts = () => {
     },
   });
 
+  // console.log(latestPosts);
+
   if (isLoading) {
     return <LoadingSpinner />;
   }
